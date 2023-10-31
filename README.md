@@ -3,6 +3,7 @@
 1. Exerciții în Cool
 1. Analiză lexicală
 1. Analiză sintactică 1 - Specificații sintactice
+1. Analiză sintactică 2 - Arbori de sintaxă abstractă (AST)
 
 Scheletele conțin porțiuni de cod adaptate din:
 
