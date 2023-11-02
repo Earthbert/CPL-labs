@@ -1,13 +1,14 @@
 ANTLR4=java -jar /usr/local/lib/antlr4.jar
+CLASSPATH="/usr/local/lib/antlr4.jar:."
 
 Test.class: Test.java CPLangParser.class CPLangLexer.class
-	javac Test.java
+	javac -cp $(CLASSPATH) Test.java
 
 CPLangParser.class: CPLangParser.java
-	javac CPLangParser.java
+	javac -cp $(CLASSPATH) CPLangParser.java
 
 CPLangLexer.class: CPLangLexer.java
-	javac CPLangLexer.java
+	javac -cp $(CLASSPATH) CPLangLexer.java
 
 CPLangLexer.java: CPLangLexer.g4
 	$(ANTLR4) CPLangLexer.g4
@@ -19,4 +20,4 @@ clean:
 	rm -f *.class CPLang*.java *.interp *.tokens
 
 run: Test.class
-	java Test
+	java -cp $(CLASSPATH) Test
