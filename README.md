@@ -6,6 +6,7 @@
 1. Analiză sintactică 2 - Arbori de sintaxă abstractă (AST)
 1. Analiză semantică 1 - Rezolvarea simbolurilor
 1. Analiză semantică 2 - Verificarea tipurilor
+1. Arhitectura MIPS
 
 Scheletele conțin porțiuni de cod adaptate din:
 
