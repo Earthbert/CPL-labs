@@ -7,6 +7,7 @@
 1. Analiză semantică 1 - Rezolvarea simbolurilor
 1. Analiză semantică 2 - Verificarea tipurilor
 1. Arhitectura MIPS
+1. Generare de cod
 
 Scheletele conțin porțiuni de cod adaptate din:
 
