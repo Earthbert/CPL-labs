@@ -10,11 +10,28 @@
 *)
 class Fibo {
     fibo_rec(n : Int) : Int {
-        0
+        if n < 2 then n else fibo_rec(n - 1) + fibo_rec(n - 2) fi
     };
 
     fibo_iter(n : Int) : Int {
-        0
+        let
+            a : Int <- 1,
+            b : Int <- 1,
+            temp : Int
+        in
+            {
+                while
+                    1 < n
+                loop
+                    {   
+                        temp <- a;
+                        a <- b;
+                        b <- a + temp;
+                        n <- n - 1;
+                    }
+                pool;
+                a;
+            }
     };
 };
     
@@ -57,7 +74,23 @@ class List inherits IO {
         new Cons.init(h, self)
     };
 
-    print() : IO { out_string("\n") };
+    print() : IO { out_string("") };
+
+    append(list : List) : List {
+        list
+    };
+
+    reverse() : List {
+        self
+    };
+
+    filter(filter : Filter) : List {
+        self
+    };
+
+    map(map : Map) : List {
+        self
+    };
 };
 
 (*
@@ -95,6 +128,32 @@ class Cons inherits List {
             tl.print();
         }
     };
+
+    append(list : List) : List {{
+        tl <- tl.append(list);
+        self;
+    }};
+
+    reverse() : List {{
+        tl.reverse().append(new List.cons(hd));
+    }};
+
+    filter(filter : Filter) : List {{
+        tl <- tl.filter(filter);
+        if 
+            filter.apply(hd) 
+        then
+            self
+        else
+            tl
+        fi;
+    }};
+
+    map(map : Map) : List {{
+        tl.map(map);
+        hd <- map.apply(hd);
+        self;
+    }};
 };
 
 (*
@@ -123,10 +182,58 @@ class Cons inherits List {
     Repetați pentru clasa Filter, cu o implementare la alegere a metodei apply.
 *)
 
+class Map {
+    apply(elem : Int) : Int {{
+        abort();
+        0;
+    }};
+};
+
+class MapIncrementCounter inherits MapIncrement {
+    counter : Int;
+
+    apply(elem : Int) : Int {{
+        self@MapIncrementCounter.increment();
+        self@MapIncrement.apply(elem);
+    }};
+
+    increment() : Object {
+        counter <- counter + 1
+    };
+
+    counter() : Int {
+        counter
+    };
+};
+
+class MapIncrement inherits Map {
+    apply(elem : Int) : Int {
+        elem + 1
+    };
+};
+
+class Filter {
+    apply(elem : Int) : Bool {{
+        abort();
+        false;
+    }};
+};
+
+class FilterLessThenThree inherits Filter {
+    apply(elem : Int) : Bool {
+        elem <= 3
+    };
+};
+
 -- Testați în main.
 class Main inherits IO {
-    main() : Object {
+    main() : Object {{
+
+        out_string("fibo_rec(8) = ").out_int((new Fibo).fibo_iter(8)).out_string("\n");
+        out_string("fibo_iter(6) = ").out_int((new Fibo).fibo_iter(6)).out_string("\n");
+
         let list : List <- new List.cons(1).cons(2).cons(3),
+            list1 : List <- new List.cons(4).cons(5).cons(6),
             temp : List <- list
         in
             {
@@ -144,7 +251,43 @@ class Main inherits IO {
                 out_string("\n");
 
                 -- Afișare utilizând metoda din clasele pe liste.
+
+                out_string("{");
                 list.print();
-            }
-    };
+                out_string("} + {");
+                list1.print();
+                out_string("} = {");
+                list.append(list1).print();
+                out_string("}\n");
+
+                out_string("{");
+                list.print();
+                out_string("}.reverse() = {");
+                list.reverse().print();
+                out_string("}\n");
+                
+                out_string("{");
+                list.print();
+                out_string("}.map(new MapIncrement) = {");
+                list.map(new MapIncrement).print();
+                out_string("}\n");
+
+                out_string("{");
+                list.print();
+                out_string("}.map(new FilterLessThenThree) = {");
+                list.filter(new FilterLessThenThree).print();
+                out_string("}\n");
+
+                let cim : MapIncrementCounter <- new MapIncrementCounter
+                in
+                    {
+                        out_string("{");
+                        list.print();
+                        out_string("}.map(new MapIncrementCounter) = {");
+                        list.map(cim).print();
+                        out_string("}\n");
+                        out_string("Counter = ").out_int(cim.counter()).out_string("\n");
+                    };
+            };
+    }};
 };
