@@ -130,8 +130,7 @@ class Cons inherits List {
     };
 
     append(list : List) : List {{
-        tl <- tl.append(list);
-        self;
+        tl.append(list).cons(hd);
     }};
 
     reverse() : List {{
@@ -139,20 +138,17 @@ class Cons inherits List {
     }};
 
     filter(filter : Filter) : List {{
-        tl <- tl.filter(filter);
-        if 
+        if
             filter.apply(hd) 
         then
-            self
+            tl.filter(filter).cons(hd)
         else
-            tl
+            tl.filter(filter)
         fi;
     }};
 
     map(map : Map) : List {{
-        tl.map(map);
-        hd <- map.apply(hd);
-        self;
+        tl.map(map).cons(map.apply(hd));
     }};
 };
 
@@ -219,9 +215,15 @@ class Filter {
     }};
 };
 
-class FilterLessThenThree inherits Filter {
+class FilterLessThen inherits Filter {
     apply(elem : Int) : Bool {
-        elem <= 3
+        elem <= 2
+    };
+};
+
+class FilterEven inherits Filter {
+    apply(elem : Int) : Bool {
+        (elem / 2) * 2 = elem
     };
 };
 
@@ -274,13 +276,21 @@ class Main inherits IO {
 
                 out_string("{");
                 list.print();
-                out_string("}.map(new FilterLessThenThree) = {");
-                list.filter(new FilterLessThenThree).print();
+                out_string("}.map(new FilterLessThen) = {");
+                list.filter(new FilterLessThen).print();
                 out_string("}\n");
 
+                let listAppended : List <- list.append(list1) 
+                in  {
+                        out_string("{");
+                        listAppended.print();
+                        out_string("}.map(new FilterEven) = {");
+                        listAppended.filter(new FilterEven).print();
+                        out_string("}\n");
+                    };
+
                 let cim : MapIncrementCounter <- new MapIncrementCounter
-                in
-                    {
+                in  {
                         out_string("{");
                         list.print();
                         out_string("}.map(new MapIncrementCounter) = {");
