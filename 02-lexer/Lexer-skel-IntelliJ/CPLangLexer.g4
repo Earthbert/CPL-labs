@@ -9,6 +9,15 @@ lexer grammar CPLangLexer;
  *   regulă din specificație.
  */
 
+// TODO 1: Adăugați reguli în specificație pentru a recunoaște toate cuvintele cheie conform README
+// TODO 2: Adăugați o regulă care să poată clasifica identificatori (nume de variabile și funcții)
+// TODO 3: Adăugați o regulă pentru recunoașterea caracterului ';'
+// TODO 4: Adăugați o regulă pentru tratarea tipurilor de date (Int, Float, Bool)
+// TODO 5: Adăugați o regulă pentru recunoașterea parantezelor și acoladelor
+// TODO 6: Adăugați o regulă pentru recunoașterea comentariilor pe o singură linie
+// TODO 7: Extindeți regula pentru tratarea literarilor cu virgulă mobilă conform README
+// TODO 8: Adăugați o regulă pentru recunoașterea comentariilor pe mai multe linii conform README
+
 /* Cuvânt cheie.
  */
 IF : 'if';
@@ -21,10 +30,6 @@ IF : 'if';
 fragment DIGIT : [0-9];
 INT : DIGIT+;
 
-/* Identificator.
- */
-fragment LETTER: [a-zA-Z];
-ID : (LETTER | '_')(LETTER | '_' | DIGIT)*;
 
 /* Număr real.
  */
