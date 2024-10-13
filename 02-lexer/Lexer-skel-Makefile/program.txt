@@ -1,2 +1,0 @@
-if 123 x 2.2e-5 /* abc /* xyz */
-efg */ "ab\"c"

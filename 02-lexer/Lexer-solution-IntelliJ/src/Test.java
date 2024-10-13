@@ -8,7 +8,7 @@ import java.io.IOException;
 public class Test {
 
   public static void main(String[] args) throws IOException {
-    CPLangLexer lexer = new CPLangLexer(CharStreams.fromFileName("program.txt"));
+    CPLangLexer lexer = new CPLangLexer(CharStreams.fromFileName("manual.txt"));
     CommonTokenStream tokenStream = new CommonTokenStream(lexer);
 
     tokenStream.fill();
