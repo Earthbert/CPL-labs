@@ -100,7 +100,11 @@ GE: '>=';
  */
 STRING: '"' ('\\"' | .)*? '"' { System.out.println("there are no strings in CPLang, but shhh.."); };
 
-BLOCK_COMMENT: '/*' (BLOCK_COMMENT | .)*? '*/' -> skip;
+BLOCK_COMMENT: 	('*/' { System.err.println("End of block comment not allowed"); }
+				|
+				'/*'
+				(BLOCK_COMMENT | .)*? 
+				('*/' | (EOF { System.err.println("Unclosed block comment");}))) -> skip;
 
 LINE_COMMENT: '//' ~[\r\n]* -> skip;
 
