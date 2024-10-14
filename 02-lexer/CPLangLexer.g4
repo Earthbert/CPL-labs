@@ -19,6 +19,9 @@ THEN: 'then';
 ELSE: 'else';
 FI: 'fi';
 
+FOR: 'for';
+DO: 'do';
+
 TRUE: 'true';
 FALSE: 'false';
 
