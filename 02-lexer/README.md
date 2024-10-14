@@ -14,7 +14,7 @@ Obiectivul laboratorului este ca analizorul lexical implementat de voi să recun
 
 ## Exercițiul 1
 
-Implementați analizorul lexical astfel încât să poată clasifica identificatori (nume de variabile și de funcții), numere întregi, operatori (aritmetici, de comparație, de atribuire), simbolul `;` și cuvintele cheie (`if`, `then`, `else`, `fi`, `true`, `false`).  
+Implementați analizorul lexical astfel încât să poată clasifica identificatori (nume de variabile și de funcții), numere întregi, operatori (aritmetici, de comparație, de atribuire), simbolul `;` și cuvintele cheie (`if`, `then`, `else`, `fi`, `true`, `false`, `for`, `do`).  
 
 Observații:
 
