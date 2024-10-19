@@ -15,23 +15,26 @@ prog
     :   ((definition | expr) SEMI)* EOF
     ;
    
-/* TODO1 Adaugă regula pentru definițiile de variabile
+/* TODO 1 Adaugă regula pentru definițiile de variabile
 /* Există definiții pentru variabile (opțional cu inițializare):
  * -> type name (= expr)?
  * și definiții pentru funcții:
  * -> type name (type name_formal1, type name_formal2, ..) { expr }.
  */
-definition:
+
+definition
+    :   TYPE ID (ASSIGN expr)?                                               # varDef
+    |   TYPE ID LPAREN (TYPE ID (COMMA TYPE ID)*)? RPAREN LBRACE expr RBRACE # funcDef
 	;
 	
 /* Expresie.
  * O expresie poate fi:
  * -> apel de funcție;
- * -> operator unar: -(expr)
- *		-x+y se va evalua la (-x) + y, nu la -(x + 1) !!!
+ * -> operator unar: -expr
+ *		-x+y se va evalua la (-x) + y, nu la -(x + y) !!!
  * -> operație aritmetică: *, / , +, -;
  *		-> operație relațională: <, <=, ==
- *		!!!Operatorii relaționali au prioritate mai mică decât cei
+ *		!!!Operatorii relaționali au prioritate mai mică decât cei    (2+3)<=5
  *		aritmetici;
  * -> instructiunea if;
  * -> atribuire de variabilă;
@@ -61,11 +64,21 @@ definition:
  * conține și câmpurile cond, thenBranch și elseBranch, având tipurile nodurilor
  * din arbore.
  * 
- * TODO1: Completează gramatica pentru regulile de mai sus.
+ * TODO 1: Completează gramatica pentru regulile de mai sus.
  * Nu uita si de restul literalilor.
  */
+
 expr
     :	IF cond=expr THEN thenBranch=expr ELSE elseBranch=expr FI	# if
     |	ID                                                          # id
     |	INT                                                         # int
+    |	FLOAT                                                       # float
+    |   BOOL                                                        # bool
+    |   MINUS expr                                                  # unary
+    |   ID LPAREN (expr (COMMA expr)*)? RPAREN                      # call
+    |	left=expr op=('*' | '/') right=expr                         # mulDiv
+    |	left=expr op=('+' | '-') right=expr                         # addSub
+    |	left=expr op=('<' | '<=' | '==') right=expr                 # relOp
+    |   ID ASSIGN value=expr                                        # assign
+    |	LPAREN inner=expr RPAREN                                    # parens
     ;

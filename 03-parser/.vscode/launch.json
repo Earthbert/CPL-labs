@@ -1,0 +1,22 @@
+{
+    "version": "2.0.0",
+    "configurations": [
+		{
+			"type": "java",
+			"name": "Test",
+			"request": "launch",
+			"mainClass": "Test",
+			"projectName": "03-parser_73c076b2"
+		},
+		{
+			"name": "ANTLR4 Debug",
+			"type": "antlr-debug",
+			"request": "launch",
+			"input": "${workspaceFolder}/manual.txt",
+			"grammar": "${workspaceFolder}/CPLangParser.g4",
+			"startRule": "prog",
+			"printParseTree": true,
+			"visualParseTree": true
+		}
+	]
+}
