@@ -12,7 +12,7 @@ options {
  * ce vor fi detaliate mai jos.
  */
 prog
-    :   ((definition | expr) SEMI)* EOF
+    :   ((funcDef | varDef | expr) SEMI)* EOF
     ;
    
 /* TODO 1 Adaugă regula pentru definițiile de variabile
@@ -22,10 +22,11 @@ prog
  * -> type name (type name_formal1, type name_formal2, ..) { expr }.
  */
 
-definition
-    :   TYPE ID (ASSIGN expr)?                                               # varDef
-    |   TYPE ID LPAREN (TYPE ID (COMMA TYPE ID)*)? RPAREN LBRACE expr RBRACE # funcDef
-	;
+varDef: TYPE ID (ASSIGN expr)?;
+
+block: LBRACE ((expr | varDef) SEMI)+ RBRACE;
+
+funcDef: TYPE ID LPAREN (TYPE ID (COMMA TYPE ID)*)? RPAREN block; 
 	
 /* Expresie.
  * O expresie poate fi:
@@ -70,15 +71,16 @@ definition
 
 expr
     :	IF cond=expr THEN thenBranch=expr ELSE elseBranch=expr FI	# if
+    |   FOR expr COMMA expr COMMA expr DO block                     # for
     |	ID                                                          # id
     |	INT                                                         # int
     |	FLOAT                                                       # float
     |   BOOL                                                        # bool
     |   MINUS expr                                                  # unary
     |   ID LPAREN (expr (COMMA expr)*)? RPAREN                      # call
-    |	left=expr op=('*' | '/') right=expr                         # mulDiv
-    |	left=expr op=('+' | '-') right=expr                         # addSub
-    |	left=expr op=('<' | '<=' | '==') right=expr                 # relOp
+    |	left=expr op=(MULT | DIV) right=expr                        # mulDiv
+    |	left=expr op=(PLUS | MINUS) right=expr                      # addSub
+    |	left=expr op=(LT | LE | EQUAL) right=expr                   # relOp
     |   ID ASSIGN value=expr                                        # assign
     |	LPAREN inner=expr RPAREN                                    # parens
     ;

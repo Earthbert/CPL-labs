@@ -18,41 +18,35 @@ public interface CPLangParserListener extends ParseTreeListener {
 	 */
 	void exitProg(CPLangParser.ProgContext ctx);
 	/**
-	 * Enter a parse tree produced by the {@code varDef}
-	 * labeled alternative in {@link CPLangParser#definition}.
+	 * Enter a parse tree produced by {@link CPLangParser#varDef}.
 	 * @param ctx the parse tree
 	 */
 	void enterVarDef(CPLangParser.VarDefContext ctx);
 	/**
-	 * Exit a parse tree produced by the {@code varDef}
-	 * labeled alternative in {@link CPLangParser#definition}.
+	 * Exit a parse tree produced by {@link CPLangParser#varDef}.
 	 * @param ctx the parse tree
 	 */
 	void exitVarDef(CPLangParser.VarDefContext ctx);
 	/**
-	 * Enter a parse tree produced by the {@code funcDef}
-	 * labeled alternative in {@link CPLangParser#definition}.
+	 * Enter a parse tree produced by {@link CPLangParser#block}.
+	 * @param ctx the parse tree
+	 */
+	void enterBlock(CPLangParser.BlockContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link CPLangParser#block}.
+	 * @param ctx the parse tree
+	 */
+	void exitBlock(CPLangParser.BlockContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link CPLangParser#funcDef}.
 	 * @param ctx the parse tree
 	 */
 	void enterFuncDef(CPLangParser.FuncDefContext ctx);
 	/**
-	 * Exit a parse tree produced by the {@code funcDef}
-	 * labeled alternative in {@link CPLangParser#definition}.
+	 * Exit a parse tree produced by {@link CPLangParser#funcDef}.
 	 * @param ctx the parse tree
 	 */
 	void exitFuncDef(CPLangParser.FuncDefContext ctx);
-	/**
-	 * Enter a parse tree produced by the {@code call}
-	 * labeled alternative in {@link CPLangParser#expr}.
-	 * @param ctx the parse tree
-	 */
-	void enterCall(CPLangParser.CallContext ctx);
-	/**
-	 * Exit a parse tree produced by the {@code call}
-	 * labeled alternative in {@link CPLangParser#expr}.
-	 * @param ctx the parse tree
-	 */
-	void exitCall(CPLangParser.CallContext ctx);
 	/**
 	 * Enter a parse tree produced by the {@code parens}
 	 * labeled alternative in {@link CPLangParser#expr}.
@@ -78,6 +72,18 @@ public interface CPLangParserListener extends ParseTreeListener {
 	 */
 	void exitBool(CPLangParser.BoolContext ctx);
 	/**
+	 * Enter a parse tree produced by the {@code for}
+	 * labeled alternative in {@link CPLangParser#expr}.
+	 * @param ctx the parse tree
+	 */
+	void enterFor(CPLangParser.ForContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code for}
+	 * labeled alternative in {@link CPLangParser#expr}.
+	 * @param ctx the parse tree
+	 */
+	void exitFor(CPLangParser.ForContext ctx);
+	/**
 	 * Enter a parse tree produced by the {@code addSub}
 	 * labeled alternative in {@link CPLangParser#expr}.
 	 * @param ctx the parse tree
@@ -89,18 +95,6 @@ public interface CPLangParserListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitAddSub(CPLangParser.AddSubContext ctx);
-	/**
-	 * Enter a parse tree produced by the {@code id}
-	 * labeled alternative in {@link CPLangParser#expr}.
-	 * @param ctx the parse tree
-	 */
-	void enterId(CPLangParser.IdContext ctx);
-	/**
-	 * Exit a parse tree produced by the {@code id}
-	 * labeled alternative in {@link CPLangParser#expr}.
-	 * @param ctx the parse tree
-	 */
-	void exitId(CPLangParser.IdContext ctx);
 	/**
 	 * Enter a parse tree produced by the {@code unary}
 	 * labeled alternative in {@link CPLangParser#expr}.
@@ -138,18 +132,6 @@ public interface CPLangParserListener extends ParseTreeListener {
 	 */
 	void exitRelOp(CPLangParser.RelOpContext ctx);
 	/**
-	 * Enter a parse tree produced by the {@code if}
-	 * labeled alternative in {@link CPLangParser#expr}.
-	 * @param ctx the parse tree
-	 */
-	void enterIf(CPLangParser.IfContext ctx);
-	/**
-	 * Exit a parse tree produced by the {@code if}
-	 * labeled alternative in {@link CPLangParser#expr}.
-	 * @param ctx the parse tree
-	 */
-	void exitIf(CPLangParser.IfContext ctx);
-	/**
 	 * Enter a parse tree produced by the {@code int}
 	 * labeled alternative in {@link CPLangParser#expr}.
 	 * @param ctx the parse tree
@@ -173,6 +155,42 @@ public interface CPLangParserListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitMulDiv(CPLangParser.MulDivContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code call}
+	 * labeled alternative in {@link CPLangParser#expr}.
+	 * @param ctx the parse tree
+	 */
+	void enterCall(CPLangParser.CallContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code call}
+	 * labeled alternative in {@link CPLangParser#expr}.
+	 * @param ctx the parse tree
+	 */
+	void exitCall(CPLangParser.CallContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code id}
+	 * labeled alternative in {@link CPLangParser#expr}.
+	 * @param ctx the parse tree
+	 */
+	void enterId(CPLangParser.IdContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code id}
+	 * labeled alternative in {@link CPLangParser#expr}.
+	 * @param ctx the parse tree
+	 */
+	void exitId(CPLangParser.IdContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code if}
+	 * labeled alternative in {@link CPLangParser#expr}.
+	 * @param ctx the parse tree
+	 */
+	void enterIf(CPLangParser.IfContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code if}
+	 * labeled alternative in {@link CPLangParser#expr}.
+	 * @param ctx the parse tree
+	 */
+	void exitIf(CPLangParser.IfContext ctx);
 	/**
 	 * Enter a parse tree produced by the {@code assign}
 	 * labeled alternative in {@link CPLangParser#expr}.

@@ -12,9 +12,9 @@
 			"name": "ANTLR4 Debug",
 			"type": "antlr-debug",
 			"request": "launch",
-			"input": "${workspaceFolder}/manual.txt",
+			"input": "${workspaceFolder}/input.txt",
 			"grammar": "${workspaceFolder}/CPLangParser.g4",
-			"startRule": "prog",
+			"startRule": "expr",
 			"printParseTree": true,
 			"visualParseTree": true
 		}

@@ -7,7 +7,6 @@ import org.antlr.v4.runtime.tree.ParseTreeWalker;
 
 import antlr.*;
 import antlr.CPLangParser.AddSubContext;
-import antlr.CPLangParser.DefinitionContext;
 import antlr.CPLangParser.FuncDefContext;
 import antlr.CPLangParser.IntContext;
 import antlr.CPLangParser.MulDivContext;
@@ -32,15 +31,15 @@ public class Test {
 		 **/
 
 		/*
-		tokenStream.fill();
-		List<Token> tokens = tokenStream.getTokens();
-		for (var token : tokens) {
-			var text = token.getText();
-			var type = CPLangLexer.VOCABULARY.getSymbolicName(token.getType());
-
-			System.out.println(text + " : " + type);
-		}
-		*/
+		 * tokenStream.fill();
+		 * List<Token> tokens = tokenStream.getTokens();
+		 * for (var token : tokens) {
+		 * var text = token.getText();
+		 * var type = CPLangLexer.VOCABULARY.getSymbolicName(token.getType());
+		 * 
+		 * System.out.println(text + " : " + type);
+		 * }
+		 */
 
 		return new CPLangParser(tokenStream);
 	}
@@ -54,6 +53,8 @@ public class Test {
 
 		/* TODO 1 înlocuiește expr cu regula de start din gramatică */
 		var tree = parser.prog();
+
+		System.out.println(tree.toStringTree(parser));
 
 		// Interfața CPLangParserListener conține, pentru fiecare alternativă
 		// etichetată, câte o pereche de metode enter/exit. Spre exemplu,
@@ -197,15 +198,7 @@ public class Test {
 	}
 
 	public static void main(String[] args) throws IOException {
-		int EXERCISE = 3;
-
-		if (EXERCISE == 1 || EXERCISE == 2)
-			task12();
-		else if (EXERCISE == 3)
-			task3();
-		else {
-			System.err.println("Provide correct number!");
-			return;
-		}
+		task12();
+		task3();
 	}
 };

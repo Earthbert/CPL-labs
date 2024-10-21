@@ -20,13 +20,16 @@ BOOL : 'true' | 'false';
 
 TYPE : 'Int' | 'Float' | 'Bool';
 
+FOR : 'for';
+DO : 'do';
+
 /* Identificator.
  */
 fragment LETTER : [a-zA-Z];
 ID : (LETTER | '_')(LETTER | '_' | DIGIT)*;
 
 /* Număr întreg.
- * 
+ *
  * fragment spune că acea categorie este utilizată doar în interiorul
  * analizorului lexical, nefiind trimisă mai departe analizorului sintactic.
  */
@@ -36,18 +39,19 @@ INT : DIGIT+;
 /* Număr real.
  */
 fragment DIGITS : DIGIT+;
+fragment FRACTION : ('.' DIGITS?)?;
 fragment EXPONENT : 'e' ('+' | '-')? DIGITS;
-FLOAT : (DIGITS ('.' DIGITS?)? | '.' DIGITS) EXPONENT?;
+FLOAT : (DIGITS FRACTION | '.' DIGITS) EXPONENT?;
 
 /* Șir de caractere.
- * 
+ *
  * Poate conține caracterul '"', doar precedat de backslash.
  * . reprezintă orice caracter în afară de EOF.
  * *? este operatorul non-greedy, care încarcă să consume caractere cât timp
  * nu a fost întâlnit caracterul ulterior, '"'.
- * 
+ *
  * Acoladele de la final pot conține secvențe arbitrare de cod Java,
- * care vor fi executate la întâlnirea acestui token. 
+ * care vor fi executate la întâlnirea acestui token.
  */
 STRING : '"' ('\\"' | .)*? '"'
     { System.out.println("there are no strings in CPLang, but shhh.."); };
@@ -123,3 +127,4 @@ mode IN_STR;
 STR : '"' -> popMode;
 CHAR : ('\\"' | ~'"') -> more;  // ~ = complement
 */
+
