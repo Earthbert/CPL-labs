@@ -13,7 +13,7 @@ Această structură nu are o formă standardizată (depinde de implementarea și
 
 ## Exerciții
 
-În laboratorul curent, ne propunem să construim și să afișăm AST-ul unui program CPLang. Urmăriți marcajele `TODO` din fișierele `ASTNode.java`, `ASTVisitor.java` și `Test.java`.
+În laboratorul curent, ne propunem să construim și să afișăm AST-ul unui program CPLang. Urmăriți marcajele `TODO` din fișierele `parser/ASTNode.java`, `parser/ASTVisitor.java`, `parser/ASTConstructionVisitor.java` si `parser/PrintVisitor.java`
 
 ### 1. Definirea ierarhiei de clase pentru AST
 
@@ -25,9 +25,9 @@ Pornind de la clasa părinte `ASTNode`, extindeți cu clase specializate pentru 
 
 ### 2. Construcția AST-ului și afișarea sa
 
-Completați în fișierul `Test.java` cei doi visitori:
+Completați în fișierele `ASTConstructionVisitor.java` și `PrintVisitor.java` cei doi visitori:
 
-- `astConstructionVisitor`, instanță de `CPLangParserBaseVisitor`, va parcurge arborele de derivare produs de analiza sintactică (vezi laboratorul anterior) în vederea construirii AST-ului.
-- `printVisitor`, instanță de `ASTVisitor`, va parcurge AST-ul pentru a afișa conținutul fiecărui nod, utilizând indentare cu tab-uri în funcție de nivelul nodului în arbore.
+- `ASTConstructionVisitor`, instanță de `CPLangParserBaseVisitor`, va parcurge arborele de derivare produs de analiza sintactică (vezi laboratorul anterior) în vederea construirii AST-ului.
+- `PrintVisitor`, instanță de `ASTVisitor`, va parcurge AST-ul pentru a afișa conținutul fiecărui nod, utilizând indentare cu tab-uri în funcție de nivelul nodului în arbore.
 
 Afișând nodul părinte al AST-ului, se va declanșa recursiv afișarea întregului arbore.

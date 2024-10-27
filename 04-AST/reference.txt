@@ -1,0 +1,102 @@
+GlobalVarDef
+	TYPE Int
+	ID x
+GlobalVarDef
+	TYPE Int
+	ID y
+	ID x
+FuncDef
+	TYPE Int
+	ID inc
+	Formal
+		TYPE Int
+		ID x
+	Block
+		+
+			ID x
+			INT 1
+Assign
+	ID x
+	Call
+		ID inc
+		ID y
+Call
+	ID print_float
+	Call
+		ID mult
+		ID x
+		ID y
+FuncDef
+	TYPE Float
+	ID mult
+	Formal
+		TYPE Float
+		ID x
+	Formal
+		TYPE Float
+		ID y
+	Block
+		+
+			ID x
+			*
+				ID y
+				FLOAT 2.5
+GlobalVarDef
+	TYPE Bool
+	ID b
+	==
+		ID x
+		ID x
+Call
+	ID print_bool
+	ID b
+Assign
+	ID x
+	If
+		ID b
+		INT 5
+		INT 7
+Call
+	ID print_int
+	ID x
+FuncDef
+	TYPE Int
+	ID factorial
+	Formal
+		TYPE Int
+		ID n
+	Block
+		LocalVarDef
+			TYPE Int
+			ID p
+			INT 1
+		LocalVarDef
+			TYPE Int
+			ID i
+		For
+			Assign
+				ID i
+				INT 1
+			<=
+				ID i
+				ID n
+			Assign
+				ID i
+				+
+					ID i
+					INT 1
+			Block
+				Assign
+					ID p
+					*
+						ID p
+						ID i
+				Call
+					ID print_int
+					ID p
+		ID p
+Call
+	ID print_int
+	Call
+		ID factorial
+		INT 5
