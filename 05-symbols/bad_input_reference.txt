@@ -1,0 +1,25 @@
+line 1:9, x undefined
+line 5:5, x redefined
+line 11:7, sum function redefined
+line 13:26, z undefined
+line 20:9, index undefined
+line 20:33, index undefined
+line 20:41, index undefined
+line 21:37, index undefined
+line 26:32, stepCounter undefined
+line 26:46, stepCounter undefined
+line 32:13, partialSum redefined
+line 40:9, anotherSum undefined
+line 48:18, inputValue undefined
+line 50:9, inputValue redefined
+line 60:9, buffer undefined
+line 63:5, temp undefined
+line 67:24, x redefined
+line 75:17, counter redefined
+line 77:23, total undefined
+line 81:5, new_sum undefined
+line 103:9, level2Value undefined
+line 105:5, level3Value undefined
+line 2:1, mult function undefined
+line 7:1, x is not a function
+line 10:1, sum is not a variable

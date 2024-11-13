@@ -1,0 +1,107 @@
+Int y = x; // x nu este definit inca, si nu exista forward references la variabile in CPLang
+mult(2, 3);  // functia nu exista
+
+Int x;
+Int x;
+
+x(1, 2); // x e variabila
+Float sum(Int x, Int y, Int z, Int w) { x + y + z + w; };
+
+sum = 5; // sum e functie
+Float sum(Int x, Int y, Int z) { x + y + z; };
+
+Int wrong_param(Int x) { z; };
+
+// Erori cu for
+Int testLoopErrors() {
+    Int accumulator = 0;
+
+    // Eroare - variabila index folosita inainte de definire
+    for index = 1, index <= 10, index = index + 1 do
+        accumulator = accumulator + index;
+
+    Int index;
+
+    // Eroare - stepCounter nu este definit in pas
+    for index = 0, index < 10, stepCounter = stepCounter + 1 do
+        accumulator = accumulator + 1;
+
+    // OK - definitie corecta de for cu bloc
+    for index = 0, index < 10, index = index + 1 do {
+        Int partialSum; // OK - definitie locala in for
+        Int partialSum = accumulator + index; // Eroare - redefinire partialSum in acelasi bloc
+
+        for index = 0, index < 10, index = index + 1 do {
+            Int partialSum; // OK - ascunde partialSum din blocul exterior
+            Int anotherSum;
+            partialSum;
+        };
+
+        anotherSum; // Eroare - partialSum nu este vizibil aici
+    };
+
+    accumulator;
+};
+
+// Erori cu variabile locale in functii
+Int testLocalScopeErrors() {
+    Int result = inputValue;     // Eroare - inputValue nu este definit
+    Int inputValue = 1;          // OK
+    Int inputValue;              // Eroare - redefinire inputValue
+
+    {
+        Int temp = result;       // OK - result este vizibil
+        Int result = temp;       // OK - ascunde result din exterior
+        {
+            Int buffer = result; // OK - referinta la result din blocul parinte
+            Int result = buffer; // OK - ascunde result din exterior
+            result = inputValue;  // OK - inputValue este vizibil din blocul exterior
+        };
+        buffer = 1;              // Eroare - buffer nu este vizibil aici
+    };
+
+    temp = 1;                   // Eroare - temp nu este vizibil aici
+    result;
+};
+
+Bool func(Int x, Float x) // Eroare - x redefinit
+{
+    Int counter = 1;
+    {
+        Int new_sum = counter;  // OK - referinta la counter din blocul exterior
+        Int counter = 2;    // OK - ascunde counter din blocul exterior
+        {
+            Int counter;    // OK - ascunde counter din blocul intermediar
+            Int counter;    // Eroare - redefinire counter in acelasi bloc
+            Int new_sum;        // OK - ascunde new_sum din blocul exterior
+            new_sum = total;     // Eroare - total nu este definit
+        };
+        counter = 3;        // OK - referinta la counter din blocul curent
+    };
+    new_sum = 4;               // Eroare - new_sum nu este vizibil aici
+};
+
+// Testare imbricare complexa de blocuri
+Int testNestedScopeRules() {
+    Int baseValue = 1;
+    {
+        Int level1Value = baseValue;
+        {
+            Int level2Value = level1Value;
+            {
+                Int level3Value = level2Value;
+                {
+                    Int baseValue = level3Value;  // OK - ascunde baseValue din exterior
+                    baseValue = level1Value;      // OK - level1Value este vizibil
+                    Int level1Value;              // OK - ascunde level1Value din exterior
+                    level1Value = level2Value;     // OK - level2Value este vizibil
+                };
+                baseValue = 2 ;                    // OK - referinta la baseValue din primul bloc
+            };
+            level1Value = 3;                       // OK - referinta la level1Value din al doilea bloc
+        };
+        level2Value = 4 ;                         // Eroare - level2Value nu este vizibil aici
+    };
+    level3Value = 5;                            // Eroare - level3Value nu este vizibil aici
+    baseValue;
+};

@@ -32,7 +32,7 @@ Definiți reprezentarea simbolurilor de **funcție** (similară cu `IdSymbol`, d
 
 Implementați, ı̂n **două treceri**, definirea și rezolvarea de simboluri pentru **variabile globale**, **parametri formali** și **funcții**:
 
-- În **prima trecere** (*definition pass*), veți defini toate simbolurile și veți **rezolva** referirile la **variabile globale** și **parametri formali**. Al doilea lucru este necesar întrucât **nu** sunt permise *forward references* la variabile.
+- În **prima trecere** (*definition pass*), veți **defini** toate simbolurile pentru **variabile locale**, **variabile globale**, **parametri formali** și **funcții**, și veți **rezolva** referirile la **primele trei tipuri de simboluri**. Rezolvarea referirilor la **variabile** încă din prima trecere este necesară întrucât **nu** sunt permise *forward references* la acestea. Pentru funcții, rezolvarea se va face **doar** în a doua trecere.
 - În **a doua trecere** (*resolution pass*), se vor **rezolva** referirile la funcții în raport cu *scope*-urile adnotate în AST în prima trecere (vedeți `visit(Call)` în `DefinitionPassVisitor`).
 
 Urmăriți comentariile și marcajele `TODO2` din `DefinitionPassVisitor` și `ResolutionPassVisitor`.
@@ -52,8 +52,11 @@ Astfel de erori includ:
 - ı̂ncercarea de **apelare a unei variabile** (e.g. `Int x; x(1, 2);`), sau invers, **atribuirea către o funcție** (e.g. `Int x() { 0 }; x = 5;`)
 - existența mai multor parametri formali cu același nume.
 
+**Notă**: În CPLang, blocurile se pot imbrica pe oricâte niveluri.
+
 Spațiul de nume global este același pentru variabile și funcții, deci **nu** pot exista variabile globale și funcții cu același nume.
 
 Urmăriți comentariile și marcajele `TODO3` din clasele `Test`, `DefinitionPassVisitor` și `ResolutionPassVisitor`.
 
-După ce ați reușit să obțineți toate erorile pe fișierul cu erori semantice, `bad_input.txt`, rulați din nou pe `manual.txt` și rezolvați erorile nou apărute (ar trebui să apară că `print_float`, `print_bool` și `print_int` nu sunt definite). Le puteți introduce manual ı̂n *scope*-ul global, acestea fiind predefinite de limbaj.
+Pentru testare, aveți la dispoziție fișierele `manual.txt` și `bad_input.txt`, împreună cu referințele lor, `manual_reference.txt` (aici ar trebui să apară că `print_float`, `print_bool` și `print_int` nu sunt definite, le puteți introduce manual ı̂n *scope*-ul global, acestea fiind predefinite de limbaj) și `bad_input_reference.txt`.
+
