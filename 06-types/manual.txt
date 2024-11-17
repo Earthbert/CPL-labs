@@ -1,0 +1,30 @@
+/* Exemplu
+    de program /* CPLang */
+*/
+Int x;
+Int y = x;
+
+Int inc(Int x) { x + 1; };
+x = inc(y);
+
+print_float(mult(x, y));  // utilizare mult inainte de definire
+Float mult(Float x, Float y) { x + y * 2.5; };
+
+Bool b = x == x;
+print_bool(b);
+
+x = if b then 5 else 7 fi;
+print_int(x);
+
+Int factorial(Int n) {
+    Int p = 1;
+    Int i;
+
+    for i = 1, i <= n, i = i + 1 do {
+        p = p * i;
+        print_int(p);
+    };
+
+    p;
+};
+print_int(factorial(5));

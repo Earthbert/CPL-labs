@@ -1,0 +1,4 @@
+line 10:1, print_float function undefined
+line 14:1, print_bool function undefined
+line 17:1, print_int function undefined
+line 30:1, print_int function undefined
