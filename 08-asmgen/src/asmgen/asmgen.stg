@@ -74,3 +74,54 @@ call(name, params) ::= <<
 <sequence(params : param())>
 	jal <name>
 >>
+
+syscall_print_int(expr) ::= <<
+<expr>
+	li $v0 1
+	syscall
+	la $a0 newline
+	li $v0 4
+	syscall
+>>
+
+syscall_print_float(expr) ::= <<
+<expr>
+	mtc1 $a0 $f12
+	li $v0 2
+	syscall
+	la $a0 newline
+	li $v0 4
+	syscall
+>>
+
+syscall_read_int() ::= <<
+	li $v0 5
+	syscall
+	move $a0 $v0
+>>
+
+syscall_read_float() ::= <<
+	li $v0 6
+	syscall
+	mfc1 $a0 $f0
+>>
+
+syscall_exit() ::= <<
+	li $v0 10
+	syscall
+>>
+
+print_bool(expr, i) ::= <<
+<expr>
+	li $v0 4
+	la $a0 true
+	beq $a0 $zero print_bool_false_<i>
+	j print_bool_end_<i>
+print_bool_false_<i>:
+	la $a0 false
+print_bool_end_<i>:
+	syscall
+	la $a0 newline
+	li $v0 4
+	syscall
+>>

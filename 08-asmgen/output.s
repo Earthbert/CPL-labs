@@ -1,8 +1,41 @@
 .data
+	true: .asciiz "true"
+
+	false: .asciiz "false"
+
+	newline: .asciiz "\n"
 
 .text
 
 main:
+	li.s $f0 1.1
+	mfc1 $a0 $f0
+	sw $a0 0($sp)
+	addiu $sp $sp -4
+	li.s $f0 2.2
+	mfc1 $a0 $f0
+	lw $t1 4($sp)
+	mtc1 $t1 $f0
+	mtc1 $a0 $f1
+	add.s $f0 $f0 $f1
+	mfc1 $a0 $f0
+	addiu $sp $sp 4		
+	sw $a0 0($sp)
+	addiu $sp $sp -4
+	li $a0 2
+	lw $t1 4($sp)
+	mtc1 $t1 $f0
+	mtc1 $a0 $f1
+cvt.s.w $f1 $f1
+	sub.s $f0 $f0 $f1
+	mfc1 $a0 $f0
+	addiu $sp $sp 4		
+	mtc1 $a0 $f12
+	li $v0 2
+	syscall
+	la $a0 newline
+	li $v0 4
+	syscall
 	li.s $f0 1.1
 	mfc1 $a0 $f0
 	li $a0 4

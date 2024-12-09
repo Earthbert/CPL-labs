@@ -6,15 +6,20 @@ public class IdSymbol extends Symbol {
 
     public boolean isGlobal;
 
-    public IdSymbol(String name) {
+    public IdSymbol(final String name) {
         super(name);
     }
 
-    public void setType(TypeSymbol type) {
+    public IdSymbol(final String name, final TypeSymbol type) {
+        super(name);
+        this.type = type;
+    }
+
+    public void setType(final TypeSymbol type) {
         this.type = type;
     }
 
     public TypeSymbol getType() {
-        return type;
+        return this.type;
     }
 }

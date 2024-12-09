@@ -10,7 +10,8 @@ import semantic.TypeSymbol;
 
 public class AsmGenVisitor implements ASTVisitor<ST> {
 	static STGroupFile templates = new STGroupFile("asmgen/asmgen.stg");
-	Integer idx = 0;
+	Integer ifCount = 0;
+	Integer printBoolCount = 0;
 
 	ST mainSection; // filled directly (through visitor returns)
 	ST dataSection; // filled collaterally ("global" access)
@@ -121,16 +122,28 @@ public class AsmGenVisitor implements ASTVisitor<ST> {
 				.add("cond", iff.cond.accept(this))
 				.add("thenBranch", iff.thenBranch.accept(this))
 				.add("elseBranch", iff.elseBranch.accept(this))
-				.add("idx", this.idx++);
+				.add("idx", this.ifCount++);
 	}
 
 	@Override
 	public ST visit(final ASTNode.Call call) {
-		
-		return null;
-		// return templates.getInstanceOf("call")
-		// 		.add("name", call.id.getSymbol().getName())
-		// 		.add("params", call.args.stream().map(a -> a.accept(this)).toList().reversed());
+
+		return switch (call.getToken().getText()) {
+			case "print_int" -> templates.getInstanceOf("syscall_print_int")
+					.add("expr", call.args.get(0).accept(this));
+			case "print_float" -> templates.getInstanceOf("syscall_print_float")
+					.add("expr", call.args.get(0).accept(this));
+			case "print_bool" -> templates.getInstanceOf("print_bool")
+					.add("expr", call.args.get(0).accept(this))
+					.add("i", this.printBoolCount++);
+			case "read_int" -> templates.getInstanceOf("syscall_read_int");
+			case "read_float" -> templates.getInstanceOf("syscall_read_float");
+			case "exit" -> templates.getInstanceOf("syscall_exit");
+			default -> null;
+			// templates.getInstanceOf("call")
+			// 		.add("name", call.id.getSymbol().getName())
+			// 		.add("params", call.args.stream().map(a -> a.accept(this)).toList().reversed());
+		};
 	}
 
 	/*
@@ -217,6 +230,10 @@ public class AsmGenVisitor implements ASTVisitor<ST> {
 		programST.add("data", this.dataSection);
 		programST.add("textFuncs", this.funcSection);
 		programST.add("textMain", this.mainSection);
+
+		this.dataSection.add("e", "\ttrue: .asciiz \"true\"");
+		this.dataSection.add("e", "\tfalse: .asciiz \"false\"");  
+		this.dataSection.add("e", "\tnewline: .asciiz \"\\n\"");
 
 		return programST;
 	}

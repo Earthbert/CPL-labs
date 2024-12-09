@@ -1,6 +1,5 @@
 package semantic;
 
-import org.antlr.v4.runtime.misc.NotNull;
 import parser.ASTNode;
 import parser.ASTVisitor;
 
@@ -9,10 +8,10 @@ public class DefinitionPassVisitor implements ASTVisitor<Void> {
     Scope currentScope = null;
 
     @Override
-    public Void visit(ASTNode.Id id) {
-        var symbol = currentScope.lookup(id.getToken().getText());
+    public Void visit(final ASTNode.Id id) {
+        final var symbol = this.currentScope.lookup(id.getToken().getText());
 
-        id.setScope(currentScope);
+        id.setScope(this.currentScope);
 
         // Semnalăm eroare dacă nu există.
         if (symbol == null) {
@@ -27,12 +26,12 @@ public class DefinitionPassVisitor implements ASTVisitor<Void> {
     }
 
     @Override
-    public Void visit(ASTNode.IntLiteral intLiteral) {
+    public Void visit(final ASTNode.IntLiteral intLiteral) {
         return null;
     }
 
     @Override
-    public Void visit(ASTNode.If anIf) {
+    public Void visit(final ASTNode.If anIf) {
         anIf.cond.accept(this);
         anIf.thenBranch.accept(this);
         anIf.elseBranch.accept(this);
@@ -40,7 +39,7 @@ public class DefinitionPassVisitor implements ASTVisitor<Void> {
     }
 
     @Override
-    public Void visit(ASTNode.For aFor) {
+    public Void visit(final ASTNode.For aFor) {
         aFor.init.accept(this);
         aFor.cond.accept(this);
         aFor.step.accept(this);
@@ -50,96 +49,96 @@ public class DefinitionPassVisitor implements ASTVisitor<Void> {
     }
 
     @Override
-    public Void visit(ASTNode.FloatLiteral floatLiteral) {
+    public Void visit(final ASTNode.FloatLiteral floatLiteral) {
         return null;
     }
 
     @Override
-    public Void visit(ASTNode.BoolLiteral boolLiteral) {
+    public Void visit(final ASTNode.BoolLiteral boolLiteral) {
         return null;
     }
 
     @Override
-    public Void visit(ASTNode.Assign assign) {
+    public Void visit(final ASTNode.Assign assign) {
         assign.id.accept(this);
         assign.expr.accept(this);
         return null;
     }
 
     @Override
-    public Void visit(ASTNode.Relational relational) {
+    public Void visit(final ASTNode.Relational relational) {
         relational.left.accept(this);
         relational.right.accept(this);
         return null;
     }
 
     @Override
-    public Void visit(ASTNode.Arithmetic arithmetic) {
+    public Void visit(final ASTNode.Arithmetic arithmetic) {
         arithmetic.left.accept(this);
         arithmetic.right.accept(this);
         return null;
     }
 
     @Override
-    public Void visit(ASTNode.UnaryMinus unaryMinus) {
+    public Void visit(final ASTNode.UnaryMinus unaryMinus) {
         unaryMinus.expr.accept(this);
         return null;
     }
 
     @Override
-    public Void visit(ASTNode.Call call) {
-        var id = call.id;
-        for (var arg : call.args) {
+    public Void visit(final ASTNode.Call call) {
+        final var id = call.id;
+        for (final var arg : call.args) {
             arg.accept(this);
         }
-        id.setScope(currentScope);
+        id.setScope(this.currentScope);
         return null;
     }
 
     @Override
-    public Void visit(ASTNode.Type type) {
+    public Void visit(final ASTNode.Type type) {
         return null;
     }
 
     @Override
-    public Void visit(ASTNode.FormalDef formalDef) {
+    public Void visit(final ASTNode.FormalDef formalDef) {
 
-        return processVarStructure(formalDef.id, formalDef.type, null, false);
+        return this.processVarStructure(formalDef.id, formalDef.type, null, false);
     }
 
     @Override
-    public Void visit(ASTNode.LocalVarDef localVarDef) {
+    public Void visit(final ASTNode.LocalVarDef localVarDef) {
 
-        return processVarStructure(localVarDef.id, localVarDef.type, localVarDef.initValue, false);
+        return this.processVarStructure(localVarDef.id, localVarDef.type, localVarDef.initValue, false);
     }
 
     @Override
-    public Void visit(ASTNode.GlobalVarDef globalVarDef) {
+    public Void visit(final ASTNode.GlobalVarDef globalVarDef) {
 
-        return processVarStructure(globalVarDef.id, globalVarDef.type, globalVarDef.initValue, true);
+        return this.processVarStructure(globalVarDef.id, globalVarDef.type, globalVarDef.initValue, true);
     }
 
     @Override
-    public Void visit(ASTNode.FuncDef funcDef) {
-        var id = funcDef.id;
-        var type = funcDef.type;
-        var functionSymbol = new FunctionSymbol(currentScope, id.getToken().getText());
-        currentScope = functionSymbol;
+    public Void visit(final ASTNode.FuncDef funcDef) {
+        final var id = funcDef.id;
+        final var type = funcDef.type;
+        final var functionSymbol = new FunctionSymbol(this.currentScope, id.getToken().getText());
+        this.currentScope = functionSymbol;
 
         // Verificăm faptul că o funcție cu același nume nu a mai fost
         // definită până acum.
-        if (!currentScope.getParent().add(functionSymbol)) {
+        if (!this.currentScope.getParent().add(functionSymbol)) {
             ASTVisitor.error(id.getToken(), id.getToken().getText() + " function redefined");
             return null;
         }
 
         id.setSymbol(functionSymbol);
-        id.setScope(currentScope);
+        id.setScope(this.currentScope);
 
         // TODO 1: Reținem informația de tip în simbolul nou creat.
 
         // Căutăm tipul funcției.
-        Symbol typeSymbol = currentScope.lookup(type.getToken().getText());
+        final Symbol typeSymbol = this.currentScope.lookup(type.getToken().getText());
 
         // Semnalăm eroare dacă nu există.
         if (typeSymbol == null || !(typeSymbol instanceof TypeSymbol)) {
@@ -150,52 +149,79 @@ public class DefinitionPassVisitor implements ASTVisitor<Void> {
         // Reținem informația de tip în cadrul simbolului aferent funcției.
         functionSymbol.setType((TypeSymbol) typeSymbol);
 
-        for (var formal : funcDef.formalDefs) {
+        for (final var formal : funcDef.formalDefs) {
             formal.accept(this);
         }
 
         funcDef.body.accept(this);
 
-        currentScope = currentScope.getParent();
+        this.currentScope = this.currentScope.getParent();
 
         return null;
     }
 
     @Override
-    public Void visit(ASTNode.Block block) {
-        currentScope = new DefaultScope(currentScope);
+    public Void visit(final ASTNode.Block block) {
+        this.currentScope = new DefaultScope(this.currentScope);
 
-        for (var stmt : block.stmts)
+        for (final var stmt : block.stmts)
             stmt.accept(this);
 
-        currentScope = currentScope.getParent();
+        this.currentScope = this.currentScope.getParent();
 
         return null;
 
     }
 
     @Override
-    public Void visit(ASTNode.Program program) {
+    public Void visit(final ASTNode.Program program) {
         // Domeniul de vizibilitate global conține inițial doar numele
         // tipurilor.
-        currentScope = new DefaultScope(null);
-        currentScope.add(TypeSymbol.INT);
-        currentScope.add(TypeSymbol.FLOAT);
-        currentScope.add(TypeSymbol.BOOL);
+        this.currentScope = new DefaultScope(null);
+        this.currentScope.add(TypeSymbol.INT);
+        this.currentScope.add(TypeSymbol.FLOAT);
+        this.currentScope.add(TypeSymbol.BOOL);
 
-        for (var stmt : program.stmts) {
+        final FunctionSymbol printInt = new FunctionSymbol(this.currentScope, "print_int");
+        printInt.setType(TypeSymbol.INT);
+        printInt.add(new IdSymbol("x", TypeSymbol.INT));
+        this.currentScope.add(printInt); 
+
+        final FunctionSymbol printFloat = new FunctionSymbol(this.currentScope, "print_float");
+        printFloat.setType(TypeSymbol.INT);
+        printFloat.add(new IdSymbol("x", TypeSymbol.FLOAT));
+        this.currentScope.add(printFloat);
+
+        final FunctionSymbol printBool = new FunctionSymbol(this.currentScope, "print_bool");
+        printBool.setType(TypeSymbol.INT);
+        printBool.add(new IdSymbol("x", TypeSymbol.BOOL));
+        this.currentScope.add(printBool);
+
+        final FunctionSymbol readInt = new FunctionSymbol(this.currentScope, "read_int");
+        readInt.setType(TypeSymbol.INT);
+        this.currentScope.add(readInt);
+        
+        final FunctionSymbol readFloat = new FunctionSymbol(this.currentScope, "read_float");
+        readFloat.setType(TypeSymbol.FLOAT);
+        this.currentScope.add(readFloat);
+
+        final FunctionSymbol exit = new FunctionSymbol(this.currentScope, "exit");
+        exit.setType(TypeSymbol.INT);
+        this.currentScope.add(exit);
+
+        for (final var stmt : program.stmts) {
             stmt.accept(this);
         }
         return null;
     }
 
-    Void processVarStructure(ASTNode.Id id, ASTNode.Type type, ASTNode.Expression initValue, boolean globalFlag) {
+    Void processVarStructure(final ASTNode.Id id, final ASTNode.Type type, final ASTNode.Expression initValue, final boolean globalFlag) {
 
-        var symbol = new IdSymbol(id.getToken().getText());
+        final var symbol = new IdSymbol(id.getToken().getText());
         symbol.isGlobal = globalFlag;
 
         // Semnalăm eroare dacă există deja variabila în scope-ul curent.
-        if (!currentScope.add(symbol)) {
+        if (!this.currentScope.add(symbol)) {
             ASTVisitor.error(id.getToken(), id.getToken().getText() + " redefined");
             return null;
         }
@@ -206,7 +232,7 @@ public class DefinitionPassVisitor implements ASTVisitor<Void> {
         // TODO 1: Reținem informația de tip în simbolul nou creat.
 
         // Căutăm tipul variabilei.
-        Symbol typeSymbol = currentScope.lookup(type.getToken().getText());
+        final Symbol typeSymbol = this.currentScope.lookup(type.getToken().getText());
 
         // Semnalăm eroare dacă nu există.
         if (typeSymbol == null || !(typeSymbol instanceof TypeSymbol)) {

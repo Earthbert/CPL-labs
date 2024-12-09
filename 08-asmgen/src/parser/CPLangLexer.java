@@ -1,4 +1,7 @@
 // Generated from c:/Users/earthbert/University/CPL/Labs/08-asmgen/src/lexer/CPLangLexer.g4 by ANTLR 4.13.1
+
+    package lexer;
+
 import org.antlr.v4.runtime.Lexer;
 import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.Token;
