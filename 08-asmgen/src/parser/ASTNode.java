@@ -316,6 +316,8 @@ public abstract class ASTNode {
         public LinkedList<FormalDef> formalDefs;
         public Block body;
 
+        public Integer tempLocations = 0;
+
         FuncDef(final Type type, final Id id, final LinkedList<FormalDef> formalDefs, final Block body,
                 final Token token) {
             super(token);
@@ -347,6 +349,7 @@ public abstract class ASTNode {
 
     public static class Program extends ASTNode {
         public LinkedList<ASTNode> stmts;
+        public Integer mainTempLocations = 0;
 
         Program(final LinkedList<ASTNode> stmts, final Token token) {
             super(token);

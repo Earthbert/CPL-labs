@@ -21,6 +21,10 @@ public class AsmGenVisitor implements ASTVisitor<ST> {
     Integer currentFunctionLocals = 0;
     Boolean inFunction = false;
 
+    Integer mainTemps = 0;
+    Integer currentFunctionTemps = 0;
+    Integer currentOffset = 0;
+
     ST mainSection; // filled directly (through visitor returns)
     ST dataSection; // filled collaterally ("global" access)
     ST funcSection; // filled collaterally ("global" access)
@@ -77,12 +81,18 @@ public class AsmGenVisitor implements ASTVisitor<ST> {
         };
 
         final var st = templates.getInstanceOf("binaryOp");
-        st.add("e1", expr.left.accept(this))
-                .add("e2", expr.right.accept(this))
-                .add("op", op)
-                .add("dStr", expr.debugStr);
 
-        return st;
+        this.currentOffset -= 4;
+        final ST e1 = expr.left.accept(this);
+        final ST e2 = expr.right.accept(this);
+        this.currentOffset += 4;
+
+        return st.add("e1", e1)
+                .add("e2", e2)
+                .add("op", op)
+                .add("dStr", expr.debugStr)
+                .add("offset", this.currentOffset);
+
     }
 
     private ST visitBinaryOpFloat(final BinaryOp expr) {
@@ -97,9 +107,14 @@ public class AsmGenVisitor implements ASTVisitor<ST> {
             default -> "";
         };
 
+        this.currentOffset -= 4;
+        final ST e1 = expr.left.accept(this);
+        final ST e2 = expr.right.accept(this);
+        this.currentOffset += 4;
+
         final var st = templates.getInstanceOf("fbinaryOp");
-        st.add("e1", expr.left.accept(this))
-                .add("e2", expr.right.accept(this))
+        st.add("e1", e1)
+                .add("e2", e2)
                 .add("op", op)
                 .add("dStr", expr.debugStr)
                 .add("c1", expr.leftType == TypeSymbol.INT)
@@ -131,9 +146,18 @@ public class AsmGenVisitor implements ASTVisitor<ST> {
             case "read_int" -> templates.getInstanceOf("syscall_read_int");
             case "read_float" -> templates.getInstanceOf("syscall_read_float");
             case "exit" -> templates.getInstanceOf("syscall_exit");
-            default -> templates.getInstanceOf("call")
-                    .add("name", call.id.getSymbol().getName())
-                    .add("params", call.args.stream().map(a -> a.accept(this)).toList().reversed());
+            default -> {
+                final ST callST = templates.getInstanceOf("call")
+                        .add("name", call.id.getSymbol().getName())
+                        .add("params_size", 4 * call.args.size());
+                for (int i = 0; i < call.args.size(); i++) {
+                    final ST argST = templates.getInstanceOf("param");
+                    argST.add("expr", call.args.get(i).accept(this));
+                    argST.add("offset", 4 + 4 * i);
+                    callST.add("params", argST);
+                }
+                yield callST;
+            }
         };
     }
 
@@ -156,7 +180,8 @@ public class AsmGenVisitor implements ASTVisitor<ST> {
 
     @Override
     public ST visit(final ASTNode.LocalVarDef localVarDef) {
-        localVarDef.id.getSymbol().offset = this.scopeStack.peek();
+        localVarDef.id.getSymbol().offset = this.scopeStack.peek()
+                + (this.inFunction ? this.currentFunctionTemps : this.mainTemps);
         this.scopeStack.push(this.scopeStack.pop() - 4);
 
         if (localVarDef.initValue != null) {
@@ -205,6 +230,7 @@ public class AsmGenVisitor implements ASTVisitor<ST> {
 
         this.scopeStack.push(this.scopeStack.peek());
         this.currentFunctionLocals = 0;
+        this.currentFunctionTemps = -4 * funcDef.tempLocations;
 
         for (int i = 0; i < funcDef.formalDefs.size(); i++) {
             final var formal = funcDef.formalDefs.get(i);
@@ -218,7 +244,9 @@ public class AsmGenVisitor implements ASTVisitor<ST> {
         final ST funcST = templates.getInstanceOf("function");
         funcST.add("name", funcDef.id.getSymbol().getName());
         funcST.add("body", bodyST);
-        funcST.add("locals_size", this.currentFunctionLocals != 0 ? this.currentFunctionLocals : null);
+        funcST.add("locals_size", (this.currentFunctionLocals + this.currentFunctionTemps) != 0
+                ? (this.currentFunctionLocals + this.currentFunctionTemps)
+                : null);
         funcST.add("params_size", funcDef.formalDefs.size() * 4);
 
         this.funcSection.add("e", funcST);
@@ -264,12 +292,16 @@ public class AsmGenVisitor implements ASTVisitor<ST> {
         this.mainSection = templates.getInstanceOf("sequence");
 
         this.scopeStack.push(-4);
+        this.mainTemps = -4 * program.mainTempLocations;
 
         for (final ASTNode e : program.stmts)
             this.mainSection.add("e", e.accept(this));
 
         final ST mainST = templates.getInstanceOf("main");
-        mainST.add("locals_size", this.mainLocals != 0 ? this.mainLocals : null);
+        mainST.add("locals_size",
+                (this.mainLocals + this.mainTemps) != 0
+                        ? (this.mainLocals + this.mainTemps)
+                        : null);
         mainST.add("body", this.mainSection);
 
         // assembly-ing it all together. HA! get it?

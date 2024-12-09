@@ -49,29 +49,25 @@ idLocal(offset) ::= <<
     lw $a0 0($t1)
 >>
 
-binaryOp(e1, e2, op, dStr) ::= <<
+binaryOp(e1, e2, op, dStr, offset) ::= <<
 <e1>
-    sw $a0 0($sp)
-    addiu $sp $sp -4
+    sw $a0 <offset>($fp)
 <e2>
-    lw $t1 4($sp)
-    <op> $a0 $t1 $a0
-    addiu $sp $sp 4        <if(dStr)># <dStr><else><endif>
+    lw $t1 <offset>($fp)
+    <op> $a0 $t1 $a0    <if(dStr)># <dStr><else><endif>
 >>
 
-fbinaryOp(e1, e2, op, dStr, c1, c2) ::= <<
+fbinaryOp(e1, e2, op, dStr, c1, c2, offset) ::= <<
 <e1>
-    sw $a0 0($sp)
-    addiu $sp $sp -4
+    sw $a0 <offset>($fp)
 <e2>
-    lw $t1 4($sp)
+    lw $t1 <offset>($fp)
     mtc1 $t1 $f0
 <if(c1)>cvt.s.w $f0 $f0<endif>
     mtc1 $a0 $f1
 <if(c2)>cvt.s.w $f1 $f1<endif>
     <op> $f0 $f0 $f1
     mfc1 $a0 $f0
-    addiu $sp $sp 4        <if(dStr)># <dStr><else><endif>
 >>
 
 iff(cond, thenBranch, elseBranch, idx) ::= <<
@@ -98,14 +94,14 @@ for_<idx>:
 end_for_<idx>:
 >>
 
-param(p) ::= <<
-<p>
-    sw $a0 0($sp)
-    addiu $sp $sp -4
+param(expr, offset) ::= <<
+<expr>
+    sw $a0 <offset>($sp)
 >>
 
-call(name, params) ::= <<
-<sequence(params : param())>
+call(name, params, params_size) ::= <<
+    addiu $sp $sp -<params_size>
+<sequence(params)>
     jal <name>
 >>
 
@@ -166,7 +162,7 @@ print_bool_end_<i>:
 main(body, locals_size) ::= <<
 main:
     addiu $fp $sp 4
-    <if(locals_size)>addiu $sp $sp <locals_size>       # locals<endif>
+    <if(locals_size)>addiu $sp $sp <locals_size>       # locals + temps<endif>
 <body>
     li $v0 10
     syscall        # exit
@@ -178,7 +174,7 @@ function(name, body, locals_size, params_size) ::= <<
     sw $fp 8($sp)
     sw $ra 4($sp)
     addiu $fp $sp 4
-    <if(locals_size)>addiu $sp $sp <locals_size>       # locals<endif>
+    <if(locals_size)>addiu $sp $sp <locals_size>       # locals + temps<endif>
 <body>
     addiu $sp $fp -4
     lw $fp 8($sp)

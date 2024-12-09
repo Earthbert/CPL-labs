@@ -6,6 +6,7 @@ import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
 
 import asmgen.AsmGenVisitor;
+import asmgen.NTAnalizator;
 import lexer.CPLangLexer;
 import parser.ASTConstructionVisitor;
 import parser.CPLangParser;
@@ -49,8 +50,8 @@ public class Test {
         ast.accept(resolutionPassVisitor);
 
         // Generarea de cod
-        final var asmGenVisitor = new AsmGenVisitor();
-        final var t = ast.accept(asmGenVisitor);
+        ast.accept(new NTAnalizator());
+        final var t = ast.accept(new AsmGenVisitor());
 
         final File file = new File("output.s");
         try (FileWriter fileWriter = new FileWriter(file)) {
