@@ -22,19 +22,19 @@ public class Test {
         final var tokenStream = new CommonTokenStream(lexer);
 
         /*
-        tokenStream.fill();
-        List<Token> tokens = tokenStream.getTokens();
-        for (var token : tokens) {
-            var text = token.getText();
-            var type = CPLangLexer.VOCABULARY.getSymbolicName(token.getType());
-
-            System.out.println(text + " : " + type);
-        }
-        */
+         * tokenStream.fill();
+         * List<Token> tokens = tokenStream.getTokens();
+         * for (var token : tokens) {
+         * var text = token.getText();
+         * var type = CPLangLexer.VOCABULARY.getSymbolicName(token.getType());
+         * 
+         * System.out.println(text + " : " + type);
+         * }
+         */
 
         final var parser = new CPLangParser(tokenStream);
         final var tree = parser.prog();
-//        System.out.println(tree.toStringTree(parser));
+        // System.out.println(tree.toStringTree(parser));
 
         // Construcția AST-ului din arborele de derivare
         final var astConstructionVisitor = new ASTConstructionVisitor();

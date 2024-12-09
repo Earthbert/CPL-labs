@@ -125,6 +125,11 @@ public class DefinitionPassVisitor implements ASTVisitor<Void> {
         final var functionSymbol = new FunctionSymbol(this.currentScope, id.getToken().getText());
         this.currentScope = functionSymbol;
 
+        if ("main".equals(id.getToken().getText())) {
+            ASTVisitor.error(id.getToken(), "main function cannot be redefined");
+            return null;
+        }
+
         // Verificăm faptul că o funcție cu același nume nu a mai fost
         // definită până acum.
         if (!this.currentScope.getParent().add(functionSymbol)) {
@@ -185,7 +190,7 @@ public class DefinitionPassVisitor implements ASTVisitor<Void> {
         final FunctionSymbol printInt = new FunctionSymbol(this.currentScope, "print_int");
         printInt.setType(TypeSymbol.INT);
         printInt.add(new IdSymbol("x", TypeSymbol.INT));
-        this.currentScope.add(printInt); 
+        this.currentScope.add(printInt);
 
         final FunctionSymbol printFloat = new FunctionSymbol(this.currentScope, "print_float");
         printFloat.setType(TypeSymbol.INT);
@@ -200,7 +205,7 @@ public class DefinitionPassVisitor implements ASTVisitor<Void> {
         final FunctionSymbol readInt = new FunctionSymbol(this.currentScope, "read_int");
         readInt.setType(TypeSymbol.INT);
         this.currentScope.add(readInt);
-        
+
         final FunctionSymbol readFloat = new FunctionSymbol(this.currentScope, "read_float");
         readFloat.setType(TypeSymbol.FLOAT);
         this.currentScope.add(readFloat);
@@ -215,7 +220,8 @@ public class DefinitionPassVisitor implements ASTVisitor<Void> {
         return null;
     }
 
-    Void processVarStructure(final ASTNode.Id id, final ASTNode.Type type, final ASTNode.Expression initValue, final boolean globalFlag) {
+    Void processVarStructure(final ASTNode.Id id, final ASTNode.Type type, final ASTNode.Expression initValue,
+            final boolean globalFlag) {
 
         final var symbol = new IdSymbol(id.getToken().getText());
         symbol.isGlobal = globalFlag;

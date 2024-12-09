@@ -6,6 +6,8 @@ public class IdSymbol extends Symbol {
 
     public boolean isGlobal;
 
+    public Integer offset;  // relative to fp
+
     public IdSymbol(final String name) {
         super(name);
     }

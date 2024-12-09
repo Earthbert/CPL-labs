@@ -8,49 +8,70 @@ program(data, textFuncs, textMain) ::= <<
 .text
 <textFuncs>
 
-main:
 <textMain>
-	li $v0 10
-	syscall		# exit
 >>
 
 literal(value) ::= <<
-	li $a0 <value>
+    li $a0 <value>
 >>
 
 fliteral(value) ::= <<
-	li.s $f0 <value>
-	mfc1 $a0 $f0
+    li.s $f0 <value>
+    mfc1 $a0 $f0
 >>
 
 uMinus(e) ::= <<
 <e>
-	not $a0 $a0
+    not $a0 $a0
+>>
+
+assignGlobal(name, expr) ::= <<
+<expr>
+    la $t1 <name>
+    sw $a0 0($t1)
+    li $a0 0
+>>
+
+assignLocal(offset, expr) ::= <<
+<expr>
+    la $t1 <offset>($fp)
+    sw $a0 0($t1)
+    li $a0 0
+>>
+
+idGlobal(name) ::= <<
+    la $t1 <name>
+    lw $a0 0($t1)
+>>
+
+idLocal(offset) ::= <<
+    la $t1 <offset>($fp)
+    lw $a0 0($t1)
 >>
 
 binaryOp(e1, e2, op, dStr) ::= <<
 <e1>
-	sw $a0 0($sp)
-	addiu $sp $sp -4
+    sw $a0 0($sp)
+    addiu $sp $sp -4
 <e2>
-	lw $t1 4($sp)
-	<op> $a0 $t1 $a0
-	addiu $sp $sp 4		<if(dStr)># <dStr><else><endif>
+    lw $t1 4($sp)
+    <op> $a0 $t1 $a0
+    addiu $sp $sp 4        <if(dStr)># <dStr><else><endif>
 >>
 
 fbinaryOp(e1, e2, op, dStr, c1, c2) ::= <<
 <e1>
-	sw $a0 0($sp)
-	addiu $sp $sp -4
+    sw $a0 0($sp)
+    addiu $sp $sp -4
 <e2>
-	lw $t1 4($sp)
-	mtc1 $t1 $f0
+    lw $t1 4($sp)
+    mtc1 $t1 $f0
 <if(c1)>cvt.s.w $f0 $f0<endif>
-	mtc1 $a0 $f1
+    mtc1 $a0 $f1
 <if(c2)>cvt.s.w $f1 $f1<endif>
-	<op> $f0 $f0 $f1
-	mfc1 $a0 $f0
-	addiu $sp $sp 4		<if(dStr)># <dStr><else><endif>
+    <op> $f0 $f0 $f1
+    mfc1 $a0 $f0
+    addiu $sp $sp 4        <if(dStr)># <dStr><else><endif>
 >>
 
 iff(cond, thenBranch, elseBranch, idx) ::= <<
@@ -64,64 +85,104 @@ else_<idx>:
 end_if_<idx>:
 >>
 
+for(init, cond, inc, body, idx) ::= <<
+<init>
+<cond>
+for_<idx>:
+    beq $a0 $zero end_for_<idx>
+<body>
+<inc>
+<cond>
+    beq $a0 $zero end_for_<idx>
+    j for_<idx>
+end_for_<idx>:
+>>
+
 param(p) ::= <<
 <p>
-	sw $a0 0($sp)
-	addiu $sp $sp -4
+    sw $a0 0($sp)
+    addiu $sp $sp -4
 >>
 
 call(name, params) ::= <<
 <sequence(params : param())>
-	jal <name>
+    jal <name>
 >>
 
 syscall_print_int(expr) ::= <<
 <expr>
-	li $v0 1
-	syscall
-	la $a0 newline
-	li $v0 4
-	syscall
+    li $v0 1
+    syscall
+    la $a0 newline
+    li $v0 4
+    syscall
+    li $a0 0
 >>
 
 syscall_print_float(expr) ::= <<
 <expr>
-	mtc1 $a0 $f12
-	li $v0 2
-	syscall
-	la $a0 newline
-	li $v0 4
-	syscall
+    mtc1 $a0 $f12
+    li $v0 2
+    syscall
+    la $a0 newline
+    li $v0 4
+    syscall
+    li $a0 0
 >>
 
 syscall_read_int() ::= <<
-	li $v0 5
-	syscall
-	move $a0 $v0
+    li $v0 5
+    syscall
+    move $a0 $v0
 >>
 
 syscall_read_float() ::= <<
-	li $v0 6
-	syscall
-	mfc1 $a0 $f0
+    li $v0 6
+    syscall
+    mfc1 $a0 $f0
 >>
 
 syscall_exit() ::= <<
-	li $v0 10
-	syscall
+    li $v0 10
+    syscall
 >>
 
 print_bool(expr, i) ::= <<
 <expr>
-	li $v0 4
-	la $a0 true
-	beq $a0 $zero print_bool_false_<i>
-	j print_bool_end_<i>
+    li $v0 4
+    la $a0 true
+    beq $a0 $zero print_bool_false_<i>
+    j print_bool_end_<i>
 print_bool_false_<i>:
-	la $a0 false
+    la $a0 false
 print_bool_end_<i>:
-	syscall
-	la $a0 newline
-	li $v0 4
-	syscall
+    syscall
+    la $a0 newline
+    li $v0 4
+    syscall
+    li $a0 0
+>>
+
+main(body, locals_size) ::= <<
+main:
+    addiu $fp $sp 4
+    <if(locals_size)>addiu $sp $sp <locals_size>       # locals<endif>
+<body>
+    li $v0 10
+    syscall        # exit
+>>
+
+function(name, body, locals_size, params_size) ::= <<
+<name>:
+    addiu $sp $sp -8
+    sw $fp 8($sp)
+    sw $ra 4($sp)
+    addiu $fp $sp 4
+    <if(locals_size)>addiu $sp $sp <locals_size>       # locals<endif>
+<body>
+    addiu $sp $fp -4
+    lw $fp 8($sp)
+    lw $ra 4($sp)
+    addiu $sp $sp <params_size>
+    jr $ra
 >>

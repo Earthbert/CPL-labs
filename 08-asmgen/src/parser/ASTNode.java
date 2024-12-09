@@ -166,14 +166,14 @@ public abstract class ASTNode {
         }
     }
 
-    public static class TwoOp extends Expression {
+    public static class BinaryOp extends Expression {
         public Expression left;
         public Expression right;
 
         public TypeSymbol leftType;
         public TypeSymbol rightType;
 
-        TwoOp(final Expression left, final Expression right, final Token op) {
+        BinaryOp(final Expression left, final Expression right, final Token op) {
             super(op);
             this.left = left;
             this.right = right;
@@ -181,7 +181,7 @@ public abstract class ASTNode {
     }
 
     // Pentru un Relational avem 'op=(LT | LE | EQUAL)' ca reprezentare
-    public static class Relational extends TwoOp {
+    public static class Relational extends BinaryOp {
 
         Relational(final Expression left, final Expression right, final Token op) {
             super(left, right, op);
@@ -193,7 +193,7 @@ public abstract class ASTNode {
         }
     }
 
-    public static class Arithmetic extends TwoOp {
+    public static class Arithmetic extends BinaryOp {
 
         Arithmetic(final Expression left, final Expression right, final Token op) {
             super(left, right, op);
