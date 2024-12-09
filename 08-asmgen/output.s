@@ -20,25 +20,25 @@ myfunc:
     addiu $sp $sp -4       # locals + temps
     la $t1 8($fp)
     lw $a0 0($t1)
-    sw $a0 -12($fp)
+    sw $a0 -4($fp)
     la $t1 12($fp)
     lw $a0 0($t1)
-    lw $t1 -12($fp)
+    lw $t1 -4($fp)
     add $a0 $t1 $a0    
-    sw $a0 -8($fp)
+    sw $a0 -4($fp)
     la $t1 16($fp)
     lw $a0 0($t1)
-    lw $t1 -8($fp)
+    lw $t1 -4($fp)
     add $a0 $t1 $a0    
     sw $a0 -4($fp)
     la $t1 20($fp)
     lw $a0 0($t1)
     lw $t1 -4($fp)
     add $a0 $t1 $a0    
-    sw $a0 0($fp)
+    sw $a0 -4($fp)
     la $t1 24($fp)
     lw $a0 0($t1)
-    lw $t1 0($fp)
+    lw $t1 -4($fp)
     add $a0 $t1 $a0    # a+b+c+d+e
     addiu $sp $fp -4
     lw $fp 8($sp)
@@ -59,9 +59,9 @@ avg:
     lw $a0 0($t1)
     lw $t1 -4($fp)
     add $a0 $t1 $a0    
-    sw $a0 0($fp)
+    sw $a0 -4($fp)
     li $a0 2
-    lw $t1 0($fp)
+    lw $t1 -4($fp)
     div $a0 $t1 $a0    # (a+b)/2
     addiu $sp $fp -4
     lw $fp 8($sp)
@@ -81,9 +81,9 @@ main:
     li $a0 2
     lw $t1 -4($fp)
     add $a0 $t1 $a0    
-    sw $a0 0($fp)
+    sw $a0 -4($fp)
     li $a0 3
-    lw $t1 0($fp)
+    lw $t1 -4($fp)
     add $a0 $t1 $a0    # 1+2+3
     li.s $f0 5.0
     mfc1 $a0 $f0
@@ -96,14 +96,14 @@ main:
     add.s $f0 $f0 $f1
     mfc1 $a0 $f0
     li $a0 2
-    sw $a0 0($fp)
+    sw $a0 -4($fp)
     li $a0 2
-    lw $t1 0($fp)
+    lw $t1 -4($fp)
     mul $a0 $t1 $a0    # 2*2
     li $a0 84
-    sw $a0 0($fp)
+    sw $a0 -4($fp)
     li $a0 2
-    lw $t1 0($fp)
+    lw $t1 -4($fp)
     div $a0 $t1 $a0    # 84/2
     li $a0 1
     beq $a0 $zero else_0
@@ -189,9 +189,9 @@ cvt.s.w $f0 $f0
     li $a0 0
     la $t1 i
     lw $a0 0($t1)
-    sw $a0 0($fp)
+    sw $a0 -4($fp)
     li $a0 30
-    lw $t1 0($fp)
+    lw $t1 -4($fp)
     sle $a0 $t1 $a0    
 for_0:
     beq $a0 $zero end_for_0
@@ -205,18 +205,18 @@ for_0:
     li $a0 0
     la $t1 i
     lw $a0 0($t1)
-    sw $a0 0($fp)
+    sw $a0 -4($fp)
     li $a0 1
-    lw $t1 0($fp)
+    lw $t1 -4($fp)
     add $a0 $t1 $a0    
     la $t1 i
     sw $a0 0($t1)
     li $a0 0
     la $t1 i
     lw $a0 0($t1)
-    sw $a0 0($fp)
+    sw $a0 -4($fp)
     li $a0 30
-    lw $t1 0($fp)
+    lw $t1 -4($fp)
     sle $a0 $t1 $a0    
     beq $a0 $zero end_for_0
     j for_0

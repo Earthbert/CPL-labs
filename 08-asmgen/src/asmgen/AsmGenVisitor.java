@@ -82,8 +82,8 @@ public class AsmGenVisitor implements ASTVisitor<ST> {
 
         final var st = templates.getInstanceOf("binaryOp");
 
-        this.currentOffset -= 4;
         final ST e1 = expr.left.accept(this);
+        this.currentOffset -= 4;
         final ST e2 = expr.right.accept(this);
         this.currentOffset += 4;
 
@@ -91,7 +91,7 @@ public class AsmGenVisitor implements ASTVisitor<ST> {
                 .add("e2", e2)
                 .add("op", op)
                 .add("dStr", expr.debugStr)
-                .add("offset", this.currentOffset);
+                .add("offset", this.currentOffset - 4);
 
     }
 
