@@ -1,0 +1,23 @@
+Int simple(Int f) {
+    Int a = f * f;
+    Int b = 0 + a;
+    Int c = 2 + 8;
+    Int d = c * b;
+    Int e = f * f;
+    Int x = e + d;
+    Int g = b + d;
+    Int h = d + b;
+    Int i = g;
+    Int y = i / h;
+    y;
+};
+
+Int complex(Int n) {
+    Int s = 0;
+    Int i;
+
+    for i = 1, i <= n, i = i + 1 do
+        s = s + if i / 2 * 2 == i then i else 0 fi;
+
+    s;
+};

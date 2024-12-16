@@ -1,0 +1,4 @@
+digraph CFG {
+    node [shape=record, fontname="Courier New"]
+    entry1 [label="{entry1:\la ← MUL f f\lb ← ADD 0 a\lc ← ADD 2 8\ld ← MUL c b\le ← MUL f f\lx ← ADD e d\lg ← ADD b d\lh ← ADD d b\li ← COPY g\ly ← DIV i h\lRET y\l}"]
+}

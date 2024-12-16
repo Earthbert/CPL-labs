@@ -1,0 +1,51 @@
+Initial entry block:
+entry1:
+	a ← MUL f f
+	b ← ADD 0 a
+	c ← ADD 2 8
+	d ← MUL c b
+	e ← MUL f f
+	x ← ADD e d
+	g ← ADD b d
+	h ← ADD d b
+	i ← COPY g
+	y ← DIV i h
+	RET y
+
+After Value Numbering:
+entry1:
+	a ← MUL f f
+	b ← COPY a
+	c ← COPY 10
+	d ← MUL 10 a
+	e ← COPY a
+	x ← ADD a d
+	g ← COPY x
+	h ← COPY x
+	i ← COPY x
+	y ← DIV x x
+	RET y
+
+Value Numbering table
+#    key          canonical
+0    f            f
+1    MUL #0 #0    a
+1    a            a
+2    0            0
+1    ADD #1 #2    a
+1    b            a
+3    2            2
+4    8            8
+5    ADD #3 #4    10
+5    10           10
+5    c            10
+6    MUL #1 #5    d
+6    d            d
+1    e            a
+7    ADD #1 #6    x
+7    x            x
+7    g            x
+7    h            x
+7    i            x
+8    DIV #7 #7    y
+8    y            y

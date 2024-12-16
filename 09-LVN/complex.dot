@@ -1,0 +1,17 @@
+digraph CFG {
+    node [shape=record, fontname="Courier New"]
+    entry2 [label="{entry2:\ls ← COPY 0\li1 ← COPY 0\li1 ← COPY 1\lrel = CMP_LE i1 n\lBR rel forBody forEnd\l|{<t> T|<f> F}}"]
+    forBody [label="{forBody:\ldiv1 = DIV i1 2\lmul3 = MUL div1 2\lrel1 = CMP_EQ mul3 i1\lBR rel1 then else\l|{<t> T|<f> F}}"]
+    then [label="{then:\lif ← COPY i1\lBR ifEnd\l}"]
+    else [label="{else:\lif ← COPY 0\lBR ifEnd\l}"]
+    ifEnd [label="{ifEnd:\ls ← ADD s if\li1 ← ADD i1 1\lrel2 = CMP_LE i1 n\lBR rel2 forBody forEnd\l|{<t> T|<f> F}}"]
+    forEnd [label="{forEnd:\lRET s\l}"]
+    entry2:t -> forBody [color=green4]
+    entry2:f -> forEnd [color=red]
+    forBody:t -> then [color=green4]
+    forBody:f -> else [color=red]
+    then -> ifEnd 
+    else -> ifEnd 
+    ifEnd:t -> forBody [color=green4]
+    ifEnd:f -> forEnd [color=red]
+}
