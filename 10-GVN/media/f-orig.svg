@@ -1,0 +1,234 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="605pt" height="1207pt" viewBox="0.00 0.00 604.62 1206.60">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 1202.6)">
+<title>CFG</title>
+<polygon fill="white" stroke="none" points="-4,4 -4,-1202.6 600.62,-1202.6 600.62,4 -4,4"/>
+<!-- entry1 -->
+<g id="node1" class="node">
+<title>entry1</title>
+<polygon fill="none" stroke="black" points="256.39,-1047.7 256.39,-1198.1 448.82,-1198.1 448.82,-1047.7 256.39,-1047.7"/>
+<text text-anchor="start" x="264.39" y="-1181.5" font-family="Courier New" font-size="14.00">entry1:</text>
+<text text-anchor="start" x="264.39" y="-1164.7" font-family="Courier New" font-size="14.00">s ← COPY 0</text>
+<text text-anchor="start" x="264.39" y="-1147.9" font-family="Courier New" font-size="14.00">i ← COPY 0</text>
+<text text-anchor="start" x="264.39" y="-1131.1" font-family="Courier New" font-size="14.00">a ← COPY 5</text>
+<text text-anchor="start" x="264.39" y="-1114.3" font-family="Courier New" font-size="14.00">i ← COPY 1</text>
+<text text-anchor="start" x="264.39" y="-1097.5" font-family="Courier New" font-size="14.00">rel = CMP_LE i n</text>
+<text text-anchor="start" x="264.39" y="-1080.7" font-family="Courier New" font-size="14.00">BR rel forBody forEnd</text>
+<polyline fill="none" stroke="black" points="256.39,-1072.5 448.82,-1072.5"/>
+<text text-anchor="middle" x="304.1" y="-1055.9" font-family="Courier New" font-size="14.00">T</text>
+<polyline fill="none" stroke="black" points="351.8,-1047.7 351.8,-1072.5"/>
+<text text-anchor="middle" x="400" y="-1055.9" font-family="Courier New" font-size="14.00">F</text>
+</g>
+<!-- forBody -->
+<g id="node2" class="node">
+<title>forBody</title>
+<polygon fill="none" stroke="black" points="72.79,-843.5 72.79,-1010.7 290.43,-1010.7 290.43,-843.5 72.79,-843.5"/>
+<text text-anchor="start" x="80.79" y="-994.1" font-family="Courier New" font-size="14.00">forBody:</text>
+<text text-anchor="start" x="80.79" y="-977.3" font-family="Courier New" font-size="14.00">call = CALL @print_int a</text>
+<text text-anchor="start" x="80.79" y="-960.5" font-family="Courier New" font-size="14.00">b ← COPY n</text>
+<text text-anchor="start" x="80.79" y="-943.7" font-family="Courier New" font-size="14.00">c ← COPY n</text>
+<text text-anchor="start" x="80.79" y="-926.9" font-family="Courier New" font-size="14.00">div = DIV i 2</text>
+<text text-anchor="start" x="80.79" y="-910.1" font-family="Courier New" font-size="14.00">mul = MUL div 2</text>
+<text text-anchor="start" x="80.79" y="-893.3" font-family="Courier New" font-size="14.00">rel1 = CMP_EQ mul i</text>
+<text text-anchor="start" x="80.79" y="-876.5" font-family="Courier New" font-size="14.00">BR rel1 then else</text>
+<polyline fill="none" stroke="black" points="72.79,-868.3 290.43,-868.3"/>
+<text text-anchor="middle" x="126.99" y="-851.7" font-family="Courier New" font-size="14.00">T</text>
+<polyline fill="none" stroke="black" points="181.19,-843.5 181.19,-868.3"/>
+<text text-anchor="middle" x="235.39" y="-851.7" font-family="Courier New" font-size="14.00">F</text>
+</g>
+<!-- entry1&#45;&gt;forBody -->
+<g id="edge1" class="edge">
+<title>entry1:t-&gt;forBody</title>
+<path fill="none" stroke="#008b00" d="M255.39,-1060.1C231.26,-1060.1 214.95,-1043.08 203.95,-1021.27"/>
+<polygon fill="#008b00" stroke="#008b00" points="207.21,-1019.98 199.88,-1012.33 200.83,-1022.88 207.21,-1019.98"/>
+</g>
+<!-- forEnd -->
+<g id="node9" class="node">
+<title>forEnd</title>
+<polygon fill="none" stroke="black" points="359.8,-174.5 359.8,-257.7 535.42,-257.7 535.42,-174.5 359.8,-174.5"/>
+<text text-anchor="start" x="367.8" y="-241.1" font-family="Courier New" font-size="14.00">forEnd:</text>
+<text text-anchor="start" x="367.8" y="-224.3" font-family="Courier New" font-size="14.00">rel4 = CMP_EQ a 5</text>
+<text text-anchor="start" x="367.8" y="-207.5" font-family="Courier New" font-size="14.00">BR rel4 then2 else2</text>
+<polyline fill="none" stroke="black" points="359.8,-199.3 535.42,-199.3"/>
+<text text-anchor="middle" x="403.5" y="-182.7" font-family="Courier New" font-size="14.00">T</text>
+<polyline fill="none" stroke="black" points="447.2,-174.5 447.2,-199.3"/>
+<text text-anchor="middle" x="490.9" y="-182.7" font-family="Courier New" font-size="14.00">F</text>
+</g>
+<!-- entry1&#45;&gt;forEnd -->
+<g id="edge2" class="edge">
+<title>entry1:f-&gt;forEnd</title>
+<path fill="none" stroke="red" d="M449.2,-1060.1C583.5,-1060.1 495.61,-895.8 495.61,-761.5 495.61,-761.5 495.61,-761.5 495.61,-501.9 495.61,-419.4 475.78,-325.31 461.61,-268.6"/>
+<polygon fill="red" stroke="red" points="465.09,-268.07 459.24,-259.24 458.31,-269.79 465.09,-268.07"/>
+</g>
+<!-- then -->
+<g id="node3" class="node">
+<title>then</title>
+<polygon fill="none" stroke="black" points="0,-731.3 0,-789.7 125.22,-789.7 125.22,-731.3 0,-731.3"/>
+<text text-anchor="start" x="8" y="-773.1" font-family="Courier New" font-size="14.00">then:</text>
+<text text-anchor="start" x="8" y="-756.3" font-family="Courier New" font-size="14.00">if ← COPY 1</text>
+<text text-anchor="start" x="8" y="-739.5" font-family="Courier New" font-size="14.00">BR ifEnd</text>
+</g>
+<!-- forBody&#45;&gt;then -->
+<g id="edge3" class="edge">
+<title>forBody:t-&gt;then</title>
+<path fill="none" stroke="#008b00" d="M71.79,-855.9C48.48,-855.9 48.14,-827.04 52.5,-801.23"/>
+<polygon fill="#008b00" stroke="#008b00" points="55.9,-802.05 54.39,-791.56 49.04,-800.71 55.9,-802.05"/>
+</g>
+<!-- else -->
+<g id="node4" class="node">
+<title>else</title>
+<polygon fill="none" stroke="black" points="200,-714.5 200,-806.5 325.22,-806.5 325.22,-714.5 200,-714.5"/>
+<text text-anchor="start" x="208" y="-789.9" font-family="Courier New" font-size="14.00">else:</text>
+<text text-anchor="start" x="208" y="-773.1" font-family="Courier New" font-size="14.00">c ← COPY i</text>
+<text text-anchor="start" x="208" y="-756.3" font-family="Courier New" font-size="14.00">b ← COPY c</text>
+<text text-anchor="start" x="208" y="-739.5" font-family="Courier New" font-size="14.00">if ← COPY 1</text>
+<text text-anchor="start" x="208" y="-722.7" font-family="Courier New" font-size="14.00">BR ifEnd</text>
+</g>
+<!-- forBody&#45;&gt;else -->
+<g id="edge4" class="edge">
+<title>forBody:f-&gt;else</title>
+<path fill="none" stroke="red" d="M235.39,-843C235.39,-834.6 236.71,-825.95 238.77,-817.57"/>
+<polygon fill="red" stroke="red" points="242.06,-818.78 241.43,-808.2 235.33,-816.86 242.06,-818.78"/>
+</g>
+<!-- ifEnd -->
+<g id="node5" class="node">
+<title>ifEnd</title>
+<polygon fill="none" stroke="black" points="192.8,-577.5 192.8,-677.5 368.42,-677.5 368.42,-577.5 192.8,-577.5"/>
+<text text-anchor="start" x="200.8" y="-660.9" font-family="Courier New" font-size="14.00">ifEnd:</text>
+<text text-anchor="start" x="200.8" y="-644.1" font-family="Courier New" font-size="14.00">s ← COPY if</text>
+<text text-anchor="start" x="200.8" y="-627.3" font-family="Courier New" font-size="14.00">rel2 = CMP_EQ s 1</text>
+<text text-anchor="start" x="200.8" y="-610.5" font-family="Courier New" font-size="14.00">BR rel2 then1 else1</text>
+<polyline fill="none" stroke="black" points="192.8,-602.3 368.42,-602.3"/>
+<text text-anchor="middle" x="236.5" y="-585.7" font-family="Courier New" font-size="14.00">T</text>
+<polyline fill="none" stroke="black" points="280.2,-577.5 280.2,-602.3"/>
+<text text-anchor="middle" x="323.9" y="-585.7" font-family="Courier New" font-size="14.00">F</text>
+</g>
+<!-- then&#45;&gt;ifEnd -->
+<g id="edge5" class="edge">
+<title>then-&gt;ifEnd</title>
+<path fill="none" stroke="black" d="M110.18,-730.91C133.17,-717.1 161.56,-700.04 188.54,-683.83"/>
+<polygon fill="black" stroke="black" points="190.34,-686.83 197.11,-678.68 186.73,-680.83 190.34,-686.83"/>
+</g>
+<!-- else&#45;&gt;ifEnd -->
+<g id="edge6" class="edge">
+<title>else-&gt;ifEnd</title>
+<path fill="none" stroke="black" d="M268.85,-714.05C269.96,-706.02 271.12,-697.55 272.27,-689.18"/>
+<polygon fill="black" stroke="black" points="275.72,-689.78 273.62,-679.39 268.79,-688.82 275.72,-689.78"/>
+</g>
+<!-- then1 -->
+<g id="node6" class="node">
+<title>then1</title>
+<polygon fill="none" stroke="black" points="181.8,-465.3 181.8,-540.5 315.42,-540.5 315.42,-465.3 181.8,-465.3"/>
+<text text-anchor="start" x="189.8" y="-523.9" font-family="Courier New" font-size="14.00">then1:</text>
+<text text-anchor="start" x="189.8" y="-507.1" font-family="Courier New" font-size="14.00">a ← COPY 5</text>
+<text text-anchor="start" x="189.8" y="-490.3" font-family="Courier New" font-size="14.00">if1 ← COPY a</text>
+<text text-anchor="start" x="189.8" y="-473.5" font-family="Courier New" font-size="14.00">BR ifEnd1</text>
+</g>
+<!-- ifEnd&#45;&gt;then1 -->
+<g id="edge7" class="edge">
+<title>ifEnd:t-&gt;then1</title>
+<path fill="none" stroke="#008b00" d="M236.5,-577C236.5,-568.96 237.22,-560.48 238.31,-552.26"/>
+<polygon fill="#008b00" stroke="#008b00" points="241.77,-552.8 239.83,-542.39 234.85,-551.74 241.77,-552.8"/>
+</g>
+<!-- else1 -->
+<g id="node7" class="node">
+<title>else1</title>
+<polygon fill="none" stroke="black" points="333.8,-465.3 333.8,-540.5 467.42,-540.5 467.42,-465.3 333.8,-465.3"/>
+<text text-anchor="start" x="341.8" y="-523.9" font-family="Courier New" font-size="14.00">else1:</text>
+<text text-anchor="start" x="341.8" y="-507.1" font-family="Courier New" font-size="14.00">a ← COPY 10</text>
+<text text-anchor="start" x="341.8" y="-490.3" font-family="Courier New" font-size="14.00">if1 ← COPY a</text>
+<text text-anchor="start" x="341.8" y="-473.5" font-family="Courier New" font-size="14.00">BR ifEnd1</text>
+</g>
+<!-- ifEnd&#45;&gt;else1 -->
+<g id="edge8" class="edge">
+<title>ifEnd:f-&gt;else1</title>
+<path fill="none" stroke="red" d="M368.6,-589.9C387.33,-589.9 395.61,-571.76 399.08,-552.14"/>
+<polygon fill="red" stroke="red" points="402.53,-552.75 400.39,-542.37 395.59,-551.82 402.53,-552.75"/>
+</g>
+<!-- ifEnd1 -->
+<g id="node8" class="node">
+<title>ifEnd1</title>
+<polygon fill="none" stroke="black" points="183.59,-294.7 183.59,-428.3 409.63,-428.3 409.63,-294.7 183.59,-294.7"/>
+<text text-anchor="start" x="191.59" y="-411.7" font-family="Courier New" font-size="14.00">ifEnd1:</text>
+<text text-anchor="start" x="191.59" y="-394.9" font-family="Courier New" font-size="14.00">call1 = CALL @print_int b</text>
+<text text-anchor="start" x="191.59" y="-378.1" font-family="Courier New" font-size="14.00">call2 = CALL @print_int c</text>
+<text text-anchor="start" x="191.59" y="-361.3" font-family="Courier New" font-size="14.00">i ← ADD i 1</text>
+<text text-anchor="start" x="191.59" y="-344.5" font-family="Courier New" font-size="14.00">rel3 = CMP_LE i n</text>
+<text text-anchor="start" x="191.59" y="-327.7" font-family="Courier New" font-size="14.00">BR rel3 forBody forEnd</text>
+<polyline fill="none" stroke="black" points="183.59,-319.5 409.63,-319.5"/>
+<text text-anchor="middle" x="239.79" y="-302.9" font-family="Courier New" font-size="14.00">T</text>
+<polyline fill="none" stroke="black" points="295.99,-294.7 295.99,-319.5"/>
+<text text-anchor="middle" x="352.69" y="-302.9" font-family="Courier New" font-size="14.00">F</text>
+</g>
+<!-- then1&#45;&gt;ifEnd1 -->
+<g id="edge9" class="edge">
+<title>then1-&gt;ifEnd1</title>
+<path fill="none" stroke="black" d="M261.35,-464.91C264.07,-457 267.05,-448.35 270.08,-439.56"/>
+<polygon fill="black" stroke="black" points="273.35,-440.81 273.29,-430.21 266.73,-438.53 273.35,-440.81"/>
+</g>
+<!-- else1&#45;&gt;ifEnd1 -->
+<g id="edge10" class="edge">
+<title>else1-&gt;ifEnd1</title>
+<path fill="none" stroke="black" d="M373.01,-464.91C366.72,-456.47 359.81,-447.21 352.8,-437.81"/>
+<polygon fill="black" stroke="black" points="355.75,-435.92 346.96,-430 350.14,-440.1 355.75,-435.92"/>
+</g>
+<!-- ifEnd1&#45;&gt;forBody -->
+<g id="edge11" class="edge">
+<title>ifEnd1:t-&gt;forBody</title>
+<path fill="none" stroke="#008b00" d="M182.59,-307.1C78.88,-307.1 131,-658.97 162.92,-832.12"/>
+<polygon fill="#008b00" stroke="#008b00" points="159.45,-832.58 164.72,-841.77 166.33,-831.3 159.45,-832.58"/>
+</g>
+<!-- ifEnd1&#45;&gt;forEnd -->
+<g id="edge12" class="edge">
+<title>ifEnd1:f-&gt;forEnd</title>
+<path fill="none" stroke="red" d="M410.39,-307.1C429.73,-307.1 439.21,-289.15 443.79,-269.28"/>
+<polygon fill="red" stroke="red" points="447.2,-270.11 445.59,-259.64 440.32,-268.83 447.2,-270.11"/>
+</g>
+<!-- then2 -->
+<g id="node10" class="node">
+<title>then2</title>
+<polygon fill="none" stroke="black" points="302.8,-79.1 302.8,-137.5 436.42,-137.5 436.42,-79.1 302.8,-79.1"/>
+<text text-anchor="start" x="310.8" y="-120.9" font-family="Courier New" font-size="14.00">then2:</text>
+<text text-anchor="start" x="310.8" y="-104.1" font-family="Courier New" font-size="14.00">if2 ← COPY a</text>
+<text text-anchor="start" x="310.8" y="-87.3" font-family="Courier New" font-size="14.00">BR ifEnd2</text>
+</g>
+<!-- forEnd&#45;&gt;then2 -->
+<g id="edge13" class="edge">
+<title>forEnd:t-&gt;then2</title>
+<path fill="none" stroke="#008b00" d="M403.5,-174C403.5,-165.08 400.94,-156.19 397.23,-147.97"/>
+<polygon fill="#008b00" stroke="#008b00" points="400.45,-146.56 392.72,-139.31 394.24,-149.8 400.45,-146.56"/>
+</g>
+<!-- else2 -->
+<g id="node11" class="node">
+<title>else2</title>
+<polygon fill="none" stroke="black" points="454.6,-79.1 454.6,-137.5 596.62,-137.5 596.62,-79.1 454.6,-79.1"/>
+<text text-anchor="start" x="462.6" y="-120.9" font-family="Courier New" font-size="14.00">else2:</text>
+<text text-anchor="start" x="462.6" y="-104.1" font-family="Courier New" font-size="14.00">if2 ← ADD a 1</text>
+<text text-anchor="start" x="462.6" y="-87.3" font-family="Courier New" font-size="14.00">BR ifEnd2</text>
+</g>
+<!-- forEnd&#45;&gt;else2 -->
+<g id="edge14" class="edge">
+<title>forEnd:f-&gt;else2</title>
+<path fill="none" stroke="red" d="M490.9,-174C490.9,-165.04 493.52,-156.12 497.32,-147.89"/>
+<polygon fill="red" stroke="red" points="500.32,-149.7 501.94,-139.23 494.14,-146.41 500.32,-149.7"/>
+</g>
+<!-- ifEnd2 -->
+<g id="node12" class="node">
+<title>ifEnd2</title>
+<polygon fill="none" stroke="black" points="410.2,-0.5 410.2,-42.1 485.01,-42.1 485.01,-0.5 410.2,-0.5"/>
+<text text-anchor="start" x="418.2" y="-25.5" font-family="Courier New" font-size="14.00">ifEnd2:</text>
+<text text-anchor="start" x="418.2" y="-8.7" font-family="Courier New" font-size="14.00">RET if2</text>
+</g>
+<!-- then2&#45;&gt;ifEnd2 -->
+<g id="edge15" class="edge">
+<title>then2-&gt;ifEnd2</title>
+<path fill="none" stroke="black" d="M395.58,-79C403.91,-69.92 413.13,-59.87 421.48,-50.78"/>
+<polygon fill="black" stroke="black" points="423.94,-53.27 428.12,-43.54 418.78,-48.54 423.94,-53.27"/>
+</g>
+<!-- else2&#45;&gt;ifEnd2 -->
+<g id="edge16" class="edge">
+<title>else2-&gt;ifEnd2</title>
+<path fill="none" stroke="black" d="M499.64,-79C491.31,-69.92 482.08,-59.87 473.74,-50.78"/>
+<polygon fill="black" stroke="black" points="476.44,-48.54 467.1,-43.54 471.28,-53.27 476.44,-48.54"/>
+</g>
+</g>
+</svg>

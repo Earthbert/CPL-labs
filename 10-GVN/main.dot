@@ -1,0 +1,4 @@
+digraph CFG {
+    node [shape=record, fontname="Courier New"]
+    entry [label="{entry:\l\l}"]
+}

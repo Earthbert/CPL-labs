@@ -1,0 +1,31 @@
+digraph CFG {
+    node [shape=record, fontname="Courier New"]
+    entry1 [label="{entry1:\ls.0 = COPY 0\li.0 = COPY 0\la.0 = COPY 5\li.1 = COPY 1\lrel = CMP_LE i.1 n\lBR rel forBody forEnd\l|{<t> T|<f> F}}"]
+    forBody [label="{forBody:\li.2 = ϕ i.1 i.3 entry1 ifEnd1\la.1 = ϕ a.0 a.4 entry1 ifEnd1\lcall = CALL @print_int a.1\lb.0 = COPY n\lc.0 = COPY n\ldiv = DIV i.2 2\lmul = MUL div 2\lrel1 = CMP_EQ mul i.2\lBR rel1 then else\l|{<t> T|<f> F}}"]
+    then [label="{then:\lif.1 = COPY 1\lBR ifEnd\l}"]
+    else [label="{else:\lc.1 = COPY i.2\lb.1 = COPY c.1\lif.0 = COPY 1\lBR ifEnd\l}"]
+    ifEnd [label="{ifEnd:\lb.2 = ϕ b.0 b.1 then else\lif.2 = ϕ if.1 if.0 then else\lc.2 = ϕ c.0 c.1 then else\ls.1 = COPY if.2\lrel2 = CMP_EQ s.1 1\lBR rel2 then1 else1\l|{<t> T|<f> F}}"]
+    then1 [label="{then1:\la.3 = COPY 5\lif1.1 = COPY a.3\lBR ifEnd1\l}"]
+    else1 [label="{else1:\la.2 = COPY 10\lif1.0 = COPY a.2\lBR ifEnd1\l}"]
+    ifEnd1 [label="{ifEnd1:\la.4 = ϕ a.3 a.2 then1 else1\lcall1 = CALL @print_int b.2\lcall2 = CALL @print_int c.2\li.3 = ADD i.2 1\lrel3 = CMP_LE i.3 n\lBR rel3 forBody forEnd\l|{<t> T|<f> F}}"]
+    forEnd [label="{forEnd:\la.5 = ϕ a.0 a.4 entry1 ifEnd1\lrel4 = CMP_EQ a.5 5\lBR rel4 then2 else2\l|{<t> T|<f> F}}"]
+    then2 [label="{then2:\lif2.1 = COPY a.5\lBR ifEnd2\l}"]
+    else2 [label="{else2:\lif2.0 = ADD a.5 1\lBR ifEnd2\l}"]
+    ifEnd2 [label="{ifEnd2:\lif2.2 = ϕ if2.1 if2.0 then2 else2\lRET if2.2\l}"]
+    entry1:t -> forBody [color=green4]
+    entry1:f -> forEnd [color=red]
+    forBody:t -> then [color=green4]
+    forBody:f -> else [color=red]
+    then -> ifEnd 
+    else -> ifEnd 
+    ifEnd:t -> then1 [color=green4]
+    ifEnd:f -> else1 [color=red]
+    then1 -> ifEnd1 
+    else1 -> ifEnd1 
+    ifEnd1:t -> forBody [color=green4]
+    ifEnd1:f -> forEnd [color=red]
+    forEnd:t -> then2 [color=green4]
+    forEnd:f -> else2 [color=red]
+    then2 -> ifEnd2 
+    else2 -> ifEnd2 
+}

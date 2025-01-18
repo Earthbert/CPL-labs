@@ -1,0 +1,31 @@
+digraph CFG {
+    node [shape=record, fontname="Courier New"]
+    entry1 [label="{entry1:\ls ← COPY 0\li ← COPY 0\la ← COPY 5\li ← COPY 1\lrel = CMP_LE i n\lBR rel forBody forEnd\l|{<t> T|<f> F}}"]
+    forBody [label="{forBody:\lcall = CALL @print_int a\lb ← COPY n\lc ← COPY n\ldiv = DIV i 2\lmul = MUL div 2\lrel1 = CMP_EQ mul i\lBR rel1 then else\l|{<t> T|<f> F}}"]
+    then [label="{then:\lif ← COPY 1\lBR ifEnd\l}"]
+    else [label="{else:\lc ← COPY i\lb ← COPY c\lif ← COPY 1\lBR ifEnd\l}"]
+    ifEnd [label="{ifEnd:\ls ← COPY if\lrel2 = CMP_EQ s 1\lBR rel2 then1 else1\l|{<t> T|<f> F}}"]
+    then1 [label="{then1:\la ← COPY 5\lif1 ← COPY a\lBR ifEnd1\l}"]
+    else1 [label="{else1:\la ← COPY 10\lif1 ← COPY a\lBR ifEnd1\l}"]
+    ifEnd1 [label="{ifEnd1:\lcall1 = CALL @print_int b\lcall2 = CALL @print_int c\li ← ADD i 1\lrel3 = CMP_LE i n\lBR rel3 forBody forEnd\l|{<t> T|<f> F}}"]
+    forEnd [label="{forEnd:\lrel4 = CMP_EQ a 5\lBR rel4 then2 else2\l|{<t> T|<f> F}}"]
+    then2 [label="{then2:\lif2 ← COPY a\lBR ifEnd2\l}"]
+    else2 [label="{else2:\lif2 ← ADD a 1\lBR ifEnd2\l}"]
+    ifEnd2 [label="{ifEnd2:\lRET if2\l}"]
+    entry1:t -> forBody [color=green4]
+    entry1:f -> forEnd [color=red]
+    forBody:t -> then [color=green4]
+    forBody:f -> else [color=red]
+    then -> ifEnd 
+    else -> ifEnd 
+    ifEnd:t -> then1 [color=green4]
+    ifEnd:f -> else1 [color=red]
+    then1 -> ifEnd1 
+    else1 -> ifEnd1 
+    ifEnd1:t -> forBody [color=green4]
+    ifEnd1:f -> forEnd [color=red]
+    forEnd:t -> then2 [color=green4]
+    forEnd:f -> else2 [color=red]
+    then2 -> ifEnd2 
+    else2 -> ifEnd2 
+}

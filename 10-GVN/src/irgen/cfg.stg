@@ -1,0 +1,17 @@
+sequence(e) ::= "<e; separator=\"\n\">"
+
+cfg(blocks, edges) ::= <<
+digraph CFG {
+    node [shape=record, fontname="Courier New"]
+<sequence(blocks)>
+<sequence(edges)>
+}
+>>
+
+block(name, instructions, binary) ::= <<
+    <name> [label="{<instructions><if(binary)>|{\<t\> T|\<f\> F}<endif>}"]
+>>
+
+edge(from, to, color, anchor) ::= <<
+    <from><if(anchor)>:<anchor><endif> -> <to> <if(color)>[color=<color>]<endif>
+>>

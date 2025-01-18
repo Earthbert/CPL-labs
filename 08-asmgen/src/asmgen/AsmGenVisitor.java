@@ -85,7 +85,7 @@ public class AsmGenVisitor implements ASTVisitor<ST> {
         final ST e1 = expr.left.accept(this);
         this.currentOffset -= 4;
         final ST e2 = expr.right.accept(this);
-        this.currentOffset += 4;
+        this.currentOffset += 4;    
 
         return st.add("e1", e1)
                 .add("e2", e2)
