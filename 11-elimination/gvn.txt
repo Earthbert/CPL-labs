@@ -1,0 +1,22 @@
+Int f(Int n) {
+    Int s = 0;
+    Int i;
+    Int a = 5;
+
+    for i = 1, i <= n, i = i + 1 do {
+        print_int(a);
+
+        Int b = n;
+        Int c = n;
+
+        // Incercați și { b = c = n; 1; } pe ramura else
+        s = if i / 2 * 2 == i then 1 else { b = c = n; 1; } fi;
+
+        if s == 1 then a = 5 else a = 10 fi;
+
+        print_int(b);
+        print_int(c);
+    };
+
+    if a == 5 then a else a + 1 fi;
+};

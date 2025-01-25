@@ -1,0 +1,13 @@
+{
+    "java.project.referencedLibraries": [
+        "lib/**/*.jar",
+        "c:\\Users\\earthbert\\University\\CPL\\Antlr4\\antlr-4.13.0-complete.jar"
+    ],
+    "antlr4.generation": {
+		"outputDir": ".",
+		"mode": "external",
+		"listeners": true,
+		"visitors": true,
+		"importDir": "../lexer"
+	},
+}

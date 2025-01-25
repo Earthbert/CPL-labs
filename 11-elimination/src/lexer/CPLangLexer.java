@@ -1,4 +1,4 @@
-// Generated from c:/Users/earthbert/University/CPL/Labs/10-GVN/src/lexer/CPLangLexer.g4 by ANTLR 4.13.1
+// Generated from c:/Users/earthbert/University/CPL/Labs/11-elimination/src/lexer/CPLangLexer.g4 by ANTLR 4.13.1
 
 package lexer;
 

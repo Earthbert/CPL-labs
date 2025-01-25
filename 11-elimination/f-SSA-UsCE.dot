@@ -1,0 +1,24 @@
+digraph CFG {
+    node [shape=record, fontname="Courier New"]
+    entry1 [label="{entry1:\lrel = CMP_LE 1 n\lBR rel forBody forEnd\l|{<t> T|<f> F}}"]
+    forBody [label="{forBody:\li.2 = ϕ 1 i.3 entry1 ifEnd1\lcall = CALL @print_int 5\lBR ifEnd1\l}"]
+    then [label="{then:\lBR ifEnd\l}"]
+    else [label="{else:\lBR ifEnd\l}"]
+    ifEnd [label="{ifEnd:\lBR then1\l}"]
+    then1 [label="{then1:\lBR ifEnd1\l}"]
+    ifEnd1 [label="{ifEnd1:\lcall1 = CALL @print_int n\lcall2 = CALL @print_int n\li.3 = ADD i.2 1\lrel3 = CMP_LE i.3 n\lBR rel3 forBody forEnd\l|{<t> T|<f> F}}"]
+    forEnd [label="{forEnd:\lBR then2\l}"]
+    then2 [label="{then2:\lBR ifEnd2\l}"]
+    ifEnd2 [label="{ifEnd2:\lRET 5\l}"]
+    entry1:t -> forBody [color=green4]
+    entry1:f -> forEnd [color=red]
+    forBody -> ifEnd1 
+    then -> ifEnd 
+    else -> ifEnd 
+    ifEnd -> then1 
+    then1 -> ifEnd1 
+    ifEnd1:t -> forBody [color=green4]
+    ifEnd1:f -> forEnd [color=red]
+    forEnd -> then2 
+    then2 -> ifEnd2 
+}
